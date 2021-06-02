@@ -5,14 +5,14 @@
 "alerts_lowalerttitle" = "Lågt";
 "alerts_verylowalerttitle" = "Väldigt Lågt (blodsocker)";
 "alerts_snooze" = "Snooza";
-"alerts_select_snooze_time" = "Ändra Snooza-tid";
+"alerts_select_snooze_time" = "Ändra Snoozningstid";
 "alerts_missedreadingalerttitle" = "Saknad avläsning";
 "alerts_calibrationneeded" = "Kalibrering behövs";
 "alerts_batterylow" = "Låg batterinivå i sändare";
 "alertstart" = "Använd from:";
 "alertvalue" = "Värde";
 "alerttype" = "Larmtyp";
-"changealertvalue" = "ändra larmvärde";
+"changealertvalue" = "Ändra larmvärde";
 "confirmdeletionalert" = "Ta bort larm?";
 "alerts_fastdrop" = "Snabbt sjunkande";
 "alerts_fastrise" = "Snabbt stigande";
