@@ -9,7 +9,7 @@
 "bluetoothPeripheralAlias" = "Alias:";
 "SensorSerialNumber" = "Serienummer:";
 "sensorType" = "Sensortyp:";
-"serialNumber" = "Serienumer:";
+"serialNumber" = "Serienummer:";
 "battery" = "Batteri:";
 "needsTransmitterId" = "Saknar sändar-ID";
 "scan" = "Scanna";
