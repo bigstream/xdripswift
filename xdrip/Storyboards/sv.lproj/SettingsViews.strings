@@ -43,8 +43,8 @@
 "settingsviews_useUSDexcomShareurl" = "Använd Dexcom-server i USA?";
 "settingsviews_dexcomShareAccountName" = "Användarnamn:";
 "settingsviews_giveDexcomShareAccountName" = "Ange Dexcom Share användarnamn";
-"settingsviews_giveDexcomSharePassword" = "Ange Dexcom Share lösenord";
-"settingsviews_giveDexcomShareSerialNumber" = "Ange Dexcom mottagares serienummer";
+"settingsviews_giveDexcomSharePassword" = "Ange Dexcom Share - lösenord";
+"settingsviews_giveDexcomShareSerialNumber" = "Ange Dexcoms mottagares serienummer";
 "settingsviews_sectiontitlenightscout" = "NightScout";
 "settingsviews_nightScoutEnabled" = "Slå på Nightscout?";
 "settingsviews_nightScoutUrl" = "URL:";
@@ -52,7 +52,7 @@
 "schedule" = "Schema:";
 "settingsviews_giveNightScoutUrl" = "Ange din NightScout URL";
 "settingsviews_nightScoutAPIKey" = "API_SECRET:";
-"settingsviews_giveNightScoutAPIKey" = "Ange ditt API_SECRET";
+"settingsviews_giveNightScoutAPIKey" = "Ange din API_SECRET";
 "editScheduleTimePickerSubtitle" = "Ändra: ";
 "timeScheduleViewTitle" = "På/Av tidschema för ";
 "uploadSensorStartTime" = "Ladda upp sensorstarttid?";
