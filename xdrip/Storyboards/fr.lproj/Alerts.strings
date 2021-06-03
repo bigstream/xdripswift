@@ -4,7 +4,7 @@
 "alerts_veryhighalerttitle" = "Valeur très haute";
 "alerts_lowalerttitle" = "Valeur faible ";
 "alerts_verylowalerttitle" = "Valeur très faible ";
-"alerts_snooze" = "Snooze";
+"alerts_snooze" = "Reporter";
 "alerts_select_snooze_time" = "Choix de l'heure Snooze";
 "alerts_missedreadingalerttitle" = "Lecture manquante";
 "alerts_calibrationneeded" = "Calibration nécessaire ";
