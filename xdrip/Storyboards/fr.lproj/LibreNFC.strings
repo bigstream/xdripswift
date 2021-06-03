@@ -1,7 +1,7 @@
 "scanComplete" = "Scan réalisé";
 "holdTopOfIphoneNearSensor" = "Positionner le haut de votre iPhone près du capteur à scanner";
 "deviceMustSupportNFC" = "Cet iPhone ne supporte pas le NFC";
-"deviceMustSupportIOS14" = "Pour connecter au Libre 2, votre iPhone doit être mis à jour à la version IOS14";
+"deviceMustSupportIOS14" = "Pour connecter au Libre 2, votre iPhone doit être mis à jour à la version iOS14";
 "donotusethelibrelinkapp" = "Connecté au Libre 2.\r\n\r\nSi vous voulez conserver la possitibilité de scanner votre capteur avec l'application officielle Libre, il est nécessaire de desactiver l'autorisation du bluetooth à l'application Libre. \r\n\r\nSinon, scanner en NFC avec l'app Libre car l'autorisation de bluetooth de l'app Libre provoquera une coupure de fonctionnement entre %@ et le capteur Libre 2.";
 "connectedLibre2DoesNotMatchScannedLibre2" = "Il semble que vous avez scanné un nouveau capteur mais %@ a une connexion Bluetooth avec un ancien capteur.\r\n\r\nPour résoudre :\r\n- Cliquez 'Déconnecter' ou 'Stopper Scan'\r\n- Retourner dans l'écran précédent et ajouter un new CGM de type Libre 2 et scanner en NFC à nouveau.\r\n\r\n%@ devrait se connecter au capteur Libre 2.";
 "nfcErrorRetryScan" = "Erreur durant le scan du capteur. Cliquez 'Scan' en haut à gauche et scanner à nouveau votre capteur.";
