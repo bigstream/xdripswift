@@ -1,4 +1,4 @@
-"presnooze" = "Snooze";
+"presnooze" = "Me le rappeler plus tard";
 "sensor" = "Capteur";
 "calibrate" = "Calibrer";
 "statusactiontitle" = "Statut";
@@ -6,7 +6,7 @@
 "forgetbluetoothdeviceactiontitle" = "Oublier le transmetteur";
 "startsensor" = "Débuter Capteur";
 "stopsensor" = "Arrêter Capteur";
-"startsensortimeinfo" = "In the next dialogs, you will need to set the date and time the sensor was inserted. It is important that you set the date and time as correct as possible.";
+"startsensortimeinfo" = "Dans les boîtes de dialogue suivantes, vous devrez définir la date et l'heure d'insertion du capteur. Il est important que vous définissiez la date et l'heure aussi correctement que possible.";
 "scanbluetoothdeviceongoing" = "Scan en cours du transmetteur...";
 "bluetoothisnoton" = "Bluetooth n'est pas actif. Allumez avant le bluetooth first et retentez";
 "bluetoothIsNotAuthorized" = "Vous n'avez pas donné l'autorisation d'utiliser le Bluetooth à %@. Allez dans les réglages, trouver %@ et autorisez le Bluetooth";
@@ -17,7 +17,11 @@
 "lastconnection" = "Dernière Connexion";
 "transmitterbatterylevel" = "Niveau de batterie (Transmitteur)";
 "ago" = "passée(s)";
-"licenseinfo" = "This program is free software distributed under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or any later version.\r\n\nThis program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY.\r\n\nSee http://www.gnu.org/licenses/gpl.txt for more details.\r\n\r\nInfo: ";
+"licenseinfo" = "Ce programme est un logiciel libre distribué sous les termes de la Licence Publique Générale GNU publiée par la Free Software Foundation, soit la version 3, soit toute version ultérieure. 
+
+Ce programme est distribué en espérant qu'il soit utile, mais SANS AUCUNE GARANTIE.Visitez http://www.gnu.org/licenses/gpl.txt pour plus de détails. 
+
+Support: support@spike-app.com: ";
 "info" = "Informations";
 "transmitterinfo" = "Tout d'abord, allez sur l'écran Bluetooth où vous pourrez ajouter et scanner votre transmetteur.\r\n\nPuis revenir sur l'écran d'accueil pour démarrer le capteur.";
 "startsensorbeforecalibration" = "Vous ne pouvez pas calibrer tant que le capteur n'est pas démarré.";
