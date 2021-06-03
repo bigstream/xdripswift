@@ -24,6 +24,6 @@
 "resetRequired" = "Återställ sändare?";
 "lastReset" = "Senaste återställning:";
 "lastResetNotKnown" = "Tidpunkt för senaste återställning ej känd";
-"transmitterResultResult" = "Sändaråterställningsresultat";
+"transmitterResultResult" = "Resultat av återställning av sändaren";
 "bootLoader" = "'Bootloader'";
 "cannotActiveCGMInFollowerMode" = "Du kan inte aktivera en CGM medan du är i följarläge";
