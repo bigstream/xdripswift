@@ -35,7 +35,7 @@
 "settingsviews_sectiontitlealerting" = "Alarme";
 "settingsviews_row_alert_types" = "Types d'alarme";
 "settingsviews_row_alerts" = "Alarmes";
-"settingsviews_sectiontitlehealthkit" = "Apple Health";
+"settingsviews_sectiontitlehealthkit" = "Apple Santé";
 "settingsviews_healthkit" = "Sauver les données dans Apple Health?";
 "settingsviews_sectiontitledexcomshare" = "Dexcom Share";
 "settingsviews_uploadReadingstoDexcomShare" = "Charger dans le Dexcom Share?";
@@ -67,7 +67,7 @@
 "settingsviews_IntervalMessage" = "Intervalle minimum entre deux lectures, en minutes";
 "settingsviews_sectiontitleAbout" = "A propos %@";
 "settingsviews_Version" = "Version";
-"settingsviews_license" = "License";
+"settingsviews_license" = "Licence";
 "settingsviews_build" = "Build";
 "m5stack_settingsviews_settingstitle" = "Réglages M5 Stack";
 "m5stack_settingsviews_textColor" = "Couleur du texte";
@@ -97,7 +97,7 @@
 "warningChangeFromMasterToFollower" = "Changer de maître à suiveur arrête le capteur en cours. Voulez-vous continuer ? ?";
 "nightScoutPort" = "Port (Optionnel):";
 "developerSettings" = "Paramètres Développeur";
-"smoothLibreValues" = "Smooth Libre Values?";
+"smoothLibreValues" = "Lisser les valeur du Libre?";
 "nslog" = "NSLog";
 "oslog" = "OSLog";
 "settingsviews_sectiontitlehomescreen" = "Ecran d'accueil";
