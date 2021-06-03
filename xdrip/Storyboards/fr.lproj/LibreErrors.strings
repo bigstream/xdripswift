@@ -1,4 +1,4 @@
-"receivedDataIsNil" = "Pas de données reçues de la part de OOP serveur";
+"receivedDataIsNil" = "Aucune donnée renvoyée par le serveur oop";
 "oOPWebServerError" = "Erreur OOP Web Server: ";
 "libreUSNotSupported" = "Libre US n'est pas supporté";
-"libreSensorNotReady" = "Capteur Libre n'est pas en statut prêt";
+"libreSensorNotReady" = "Capteur Libre non prêt";
