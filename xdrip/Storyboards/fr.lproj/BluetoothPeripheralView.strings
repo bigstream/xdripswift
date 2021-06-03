@@ -12,7 +12,7 @@
 "serialNumber" = "Numéro de série";
 "battery" = "Batterie";
 "needsTransmitterId" = "ID du transmetteur manquant";
-"scan" = "Scan";
+"scan" = "Scanner";
 "readyToScan" = "Prêt à scanner";
 "scanning" = "En cours de scan";
 "disconnect" = "Se déconnecter";
