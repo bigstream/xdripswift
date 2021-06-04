@@ -7,6 +7,7 @@
 "showReadingInNotification" = "BZ in Mitteilungszentrale?";
 "labelShowReadingInAppBadge" = "BZ Werte auf der App-Kachel anzeigen?";
 "multipleAppBadgeValueWith10" = "mit 10 multiplizieren?";
+"showClockWhenScreenIsLocked" = "Show Clock when Locked?";
 "settingsviews_urgentHighValue" = "Hohe Werte dringend:";
 "settingsviews_highValue" = "Hoher Wert:";
 "settingsviews_targetValue" = "Zielwert:";
