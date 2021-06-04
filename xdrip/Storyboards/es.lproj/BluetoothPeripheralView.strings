@@ -27,3 +27,5 @@
 "transmitterResultResult" = "Resultado del reseteo del Transmisor";
 "bootLoader" = "Bootloader";
 "cannotActiveCGMInFollowerMode" = "No puedes añadir un transmisor MGC estando en modo Follower/Seguidor";
+"confirmDisconnectTitle" = "Confirm Disconnect";
+"confirmDisconnectMessage" = "Click 'Disconnect' to confirm that you really want to disconnect from the transmitter.";
