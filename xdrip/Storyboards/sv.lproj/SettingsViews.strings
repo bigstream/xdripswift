@@ -7,7 +7,7 @@
 "showReadingInNotification" = "Visa BS som notiser?";
 "labelShowReadingInAppBadge" = "Visa BS i appikon?";
 "multipleAppBadgeValueWith10" = "Multiplicera BS med 10?";
-"showClockWhenScreenIsLocked" = "Show Clock when Locked?";
+"showClockWhenScreenIsLocked" = "Visa klocka när låst?";
 "settingsviews_urgentHighValue" = "Akut högt värde:";
 "settingsviews_highValue" = "Högt värde:";
 "settingsviews_targetValue" = "Målvärde:";
