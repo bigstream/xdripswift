@@ -27,3 +27,5 @@
 "transmitterResultResult" = "Transmitter Reset Resultaat";
 "bootLoader" = "Bootloader";
 "cannotActiveCGMInFollowerMode" = "Je kunt een CGM in Volg Modus niet activeren";
+"confirmDisconnectTitle" = "Confirm Disconnect";
+"confirmDisconnectMessage" = "Click 'Disconnect' to confirm that you really want to disconnect from the transmitter.";
