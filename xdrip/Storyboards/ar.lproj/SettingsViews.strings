@@ -7,6 +7,7 @@
 "showReadingInNotification" = "عرض قراءات السكر في الإشعارات؟";
 "labelShowReadingInAppBadge" = "عرض قراءة السكر على أيقونة التطبيق؟";
 "multipleAppBadgeValueWith10" = "مضاعفة قراءة أيقونة التطبيق في 10؟";
+"showClockWhenScreenIsLocked" = "Show Clock when Locked?";
 "settingsviews_urgentHighValue" = "قيمة الحد الأعلى الخطر:";
 "settingsviews_highValue" = "القيمة العليا:";
 "settingsviews_targetValue" = "قيمة الهدف:";
