@@ -27,3 +27,5 @@
 "transmitterResultResult" = "Ré-intialisation du Transmetteur";
 "bootLoader" = "Bootloader";
 "cannotActiveCGMInFollowerMode" = "Vous ne pouvez pas activer le capteur en mode Suiveur";
+"confirmDisconnectTitle" = "Confirm Disconnect";
+"confirmDisconnectMessage" = "Click 'Disconnect' to confirm that you really want to disconnect from the transmitter.";
