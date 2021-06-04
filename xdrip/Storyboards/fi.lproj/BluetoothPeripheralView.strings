@@ -27,3 +27,5 @@
 "transmitterResultResult" = "Lähettimen nollaus tulos";
 "bootLoader" = "Käynnistyslatain";
 "cannotActiveCGMInFollowerMode" = "Et voi aktivoida CGM:ää seuraaja-tilassa";
+"confirmDisconnectTitle" = "Confirm Disconnect";
+"confirmDisconnectMessage" = "Click 'Disconnect' to confirm that you really want to disconnect from the transmitter.";
