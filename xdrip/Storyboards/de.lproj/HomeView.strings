@@ -1,6 +1,10 @@
 "presnooze" = "Schlummern";
 "sensor" = "Sensor";
 "calibrate" = "Kalibrieren";
+"lock" = "Lock";
+"unlock" = "Unlock";
+"screenlocktitle" = "Screen Lock Enabled";
+"screenlockinfo" = "This will keep the screen awake until you move to another app or click Unlock.\r\n\nIt is recommended that you keep the phone plugged into a charger to prevent battery drain.";
 "statusactiontitle" = "Status";
 "scanbluetoothdeviceactiontitle" = "Transmitter scannen";
 "forgetbluetoothdeviceactiontitle" = "Transmitter löschen";
