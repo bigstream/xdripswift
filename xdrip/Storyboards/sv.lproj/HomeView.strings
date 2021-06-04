@@ -1,10 +1,10 @@
 "presnooze" = "Snooza";
 "sensor" = "Sensor";
 "calibrate" = "Kalibrera";
-"lock" = "Lock";
-"unlock" = "Unlock";
-"screenlocktitle" = "Screen Lock Enabled";
-"screenlockinfo" = "This will keep the screen awake until you move to another app or click Unlock.\r\n\nIt is recommended that you keep the phone plugged into a charger to prevent battery drain.";
+"lock" = "Lås";
+"unlock" = "Lås upp";
+"screenlocktitle" = "Skärmlås aktiverat";
+"screenlockinfo" = "Detta håller skärmen vaken tills du byter app eller klickar på 'Lås upp'.\r\n\nDet rekommenderas att hålla telefon ansluten till en laddare för att förhindra urladdning av batteriet.";
 "statusactiontitle" = "Status";
 "scanbluetoothdeviceactiontitle" = "Scanna efter sändare";
 "forgetbluetoothdeviceactiontitle" = "Glöm sändare";
