@@ -27,5 +27,5 @@
 "transmitterResultResult" = "Resultat av återställning av sändaren";
 "bootLoader" = "'Bootloader'";
 "cannotActiveCGMInFollowerMode" = "Du kan inte aktivera en CGM medan du är i följarläge";
-"confirmDisconnectTitle" = "Confirm Disconnect";
-"confirmDisconnectMessage" = "Click 'Disconnect' to confirm that you really want to disconnect from the transmitter.";
+"confirmDisconnectTitle" = "Bekräfta frånkoppling";
+"confirmDisconnectMessage" = "Klicka på \"Koppla från\" för att bekräfta att du verkligen vill koppla från sändaren.";
