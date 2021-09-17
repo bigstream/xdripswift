@@ -344,7 +344,7 @@ final class RootViewController: UIViewController {
     private var screenLockAlertController: UIAlertController?
     
     /// create the landscape view
-    private var landscapeViewController: LandscapeViewController?
+    private var landscapeChartViewController: LandscapeChartViewController?
 
     
     // MARK: - overriden functions
@@ -366,8 +366,16 @@ final class RootViewController: UIViewController {
         
         super.viewWillAppear(animated)
         
-        // allow the Root View Controller which is the main screen, to rotate left/right to show the landscape view
-        (UIApplication.shared.delegate as! AppDelegate).restrictRotation = .allButUpsideDown
+        // if allowed, then permit the Root View Controller which is the main screen, to rotate left/right to show the landscape view
+        if UserDefaults.standard.allowScreenRotation {
+            
+            (UIApplication.shared.delegate as! AppDelegate).restrictRotation = .allButUpsideDown
+            
+        } else {
+            
+            (UIApplication.shared.delegate as! AppDelegate).restrictRotation = .portrait
+            
+        }
         
         // viewWillAppear when user switches eg from Settings Tab to Home Tab - latest reading value needs to be shown on the view, and also update minutes ago etc.
         updateLabelsAndChart(overrideApplicationState: true)
@@ -2438,12 +2446,12 @@ final class RootViewController: UIViewController {
     func showLandscape(with coordinator:
                        UIViewControllerTransitionCoordinator) {
       // 1
-      guard landscapeViewController == nil else { return }
+      guard landscapeChartViewController == nil else { return }
       // 2
-      landscapeViewController = storyboard!.instantiateViewController(
-                    withIdentifier: "LandscapeViewController")
-                    as? LandscapeViewController
-      if let controller = landscapeViewController {
+        landscapeChartViewController = storyboard!.instantiateViewController(
+                    withIdentifier: "LandscapeChartViewController")
+                    as? LandscapeChartViewController
+      if let controller = landscapeChartViewController {
         // 3
         controller.view.frame = view.bounds
         controller.view.alpha = 0
@@ -2460,14 +2468,14 @@ final class RootViewController: UIViewController {
     
     func hideLandscape(with coordinator:
                        UIViewControllerTransitionCoordinator) {
-      if let controller = landscapeViewController {
+      if let controller = landscapeChartViewController {
         controller.willMove(toParent: nil)
         coordinator.animate(alongsideTransition: { _ in
             controller.view.alpha = 0
           }, completion: { _ in
             controller.view.removeFromSuperview()
             controller.removeFromParent()
-            self.landscapeViewController = nil
+            self.landscapeChartViewController = nil
           })
       }
     }

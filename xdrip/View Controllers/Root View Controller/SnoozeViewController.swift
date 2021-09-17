@@ -34,8 +34,16 @@ final class SnoozeViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         
-        // as the snooze view is removed, all the RootViewController to rotate again
-        (UIApplication.shared.delegate as! AppDelegate).restrictRotation = .allButUpsideDown
+        // as the snooze view is removed, all the RootViewController to rotate again if permitted
+        if UserDefaults.standard.allowScreenRotation {
+            
+            (UIApplication.shared.delegate as! AppDelegate).restrictRotation = .allButUpsideDown
+            
+        } else {
+            
+            (UIApplication.shared.delegate as! AppDelegate).restrictRotation = .portrait
+            
+        }
         
     }
     
