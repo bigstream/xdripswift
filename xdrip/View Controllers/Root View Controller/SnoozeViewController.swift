@@ -25,6 +25,20 @@ final class SnoozeViewController: UIViewController {
         setupView()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+    
+        // restrict rotation of the Snooze View to just portrait. This is important as it is a child view of RootViewController
+        (UIApplication.shared.delegate as! AppDelegate).restrictRotation = .portrait
+        
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        
+        // as the snooze view is removed, all the RootViewController to rotate again
+        (UIApplication.shared.delegate as! AppDelegate).restrictRotation = .allButUpsideDown
+        
+    }
+    
     // MARK: - private helper functions
     
     // setup the view
