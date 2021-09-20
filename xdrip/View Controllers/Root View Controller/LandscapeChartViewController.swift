@@ -10,6 +10,8 @@ import UIKit
 
 class LandscapeChartViewController: UIViewController {
 
+    @IBOutlet weak var landscapeChartOutlet: BloodGlucoseChartView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 

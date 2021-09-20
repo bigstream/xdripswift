@@ -17,24 +17,39 @@
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Landscape Chart View Controller" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ha7-3N-TBG">
-                                <rect key="frame" x="18.333333333333343" y="407" width="353.66666666666663" height="30"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Zaq-kf-K7B">
+                                <rect key="frame" x="0.0" y="64" width="350" height="760"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3wt-CH-AL5">
+                                        <rect key="frame" x="0.0" y="0.0" width="350" height="60"/>
+                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="60" id="IFS-Kr-CIX"/>
+                                        </constraints>
+                                    </stackView>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lne-db-yuA" customClass="BloodGlucoseChartView" customModule="xdrip" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="60" width="350" height="700"/>
+                                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </view>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="yKY-e9-IrT"/>
-                        <color key="backgroundColor" systemColor="systemGreenColor"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="Ha7-3N-TBG" firstAttribute="centerX" secondItem="2c4-db-2dM" secondAttribute="centerX" id="11G-Ew-ZxN"/>
-                            <constraint firstItem="Ha7-3N-TBG" firstAttribute="centerY" secondItem="2c4-db-2dM" secondAttribute="centerY" id="VK9-dY-ZoF"/>
+                            <constraint firstItem="Zaq-kf-K7B" firstAttribute="top" secondItem="yKY-e9-IrT" secondAttribute="top" constant="20" id="6RN-vg-IoF"/>
+                            <constraint firstAttribute="bottom" secondItem="Zaq-kf-K7B" secondAttribute="bottom" constant="20" id="DX5-3V-sAX"/>
+                            <constraint firstItem="Zaq-kf-K7B" firstAttribute="leading" secondItem="yKY-e9-IrT" secondAttribute="leading" id="QRN-n7-PtC"/>
+                            <constraint firstAttribute="trailing" secondItem="Zaq-kf-K7B" secondAttribute="trailing" constant="40" id="w0h-tm-Z2W"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="landscapeChartOutlet" destination="lne-db-yuA" id="Rau-kN-CIn"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KZT-Nh-dNE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-63" y="-1270"/>
+            <point key="canvasLocation" x="-246" y="-891"/>
         </scene>
         <!--Home-->
         <scene sceneID="hNz-n2-bh7">
