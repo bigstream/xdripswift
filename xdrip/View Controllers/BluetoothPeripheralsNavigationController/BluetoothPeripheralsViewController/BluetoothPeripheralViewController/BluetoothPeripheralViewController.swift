@@ -696,6 +696,16 @@ class BluetoothPeripheralViewController: UIViewController {
                 
                 // as transmitter id has been set (or set to nil), connect button label text must change
                 _ = BluetoothPeripheralViewController.setConnectButtonLabelTextAndGetStatusDetailedText(bluetoothPeripheral: self.bluetoothPeripheral, isScanning: self.isScanning, connectButtonOutlet: self.connectButtonOutlet, expectedBluetoothPeripheralType: self.expectedBluetoothPeripheralType, transmitterId: transmitterIdUpper, bluetoothPeripheralManager: bluetoothPeripheralManager as! BluetoothPeripheralManager)
+            
+            if self.expectedBluetoothPeripheralType?.checkG6Anubis(transmitterId: transmitterId) == true {
+                
+                let message: String = transmitterId.uppercased() + " is a newer style G6 transmitter. This transmitter is only compatible with xDrip4iOS if it was modified by the Anubis team.\n\nPlease be aware that if your transmitter does not have an Anubis logo on it, it will NOT work."
+                
+                let alert = UIAlertController(title: "Compatibility Warning", message: message, actionHandler: nil)
+                
+                self.present(alert, animated: true, completion: nil)
+                    
+                }
                 
         }, cancelHandler: nil, inputValidator: { (transmitterId) in
             

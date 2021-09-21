@@ -221,13 +221,6 @@ enum BluetoothPeripheralType: String, CaseIterable {
             if !transmitterId.validate(withRegex: regex) {
                 return Texts_ErrorMessages.DexcomTransmitterIDInvalidCharacters
             }
-            
-            // reject transmitters with id in range 8G or higher. These are Firefly's
-            // convert to upper
-            let transmitterIdUpper = transmitterId.uppercased()
-            if transmitterIdUpper.compare("8G") == .orderedDescending {
-                return Texts_SettingsView.transmitterId8OrHigherNotSupported
-            }
 
             // validation successful
             return nil
@@ -258,6 +251,36 @@ enum BluetoothPeripheralType: String, CaseIterable {
                 return Texts_ErrorMessages.TransmitterIdBluCon
             }
             return nil
+            
+        }
+        
+    }
+    
+    // this is to check if a normally non-compatible G6 transmitter ID has been entered. Used by the ViewController to display a warning to the user to make sure they know only Anubis-modified G6 transmitters will work for these later (>=8G) transmitter IDs.
+    func checkG6Anubis(transmitterId:String) -> Bool {
+        
+        switch self {
+        
+        // we're only interested in checking G6
+        case .DexcomG6Type:
+            
+            let transmitterIdUpper = transmitterId.uppercased()
+            
+            //
+            if transmitterIdUpper.compare("8G") == .orderedDescending {
+                
+                return true
+                
+            } else {
+                
+                return false
+                
+            }
+        
+        // just return false for everything else
+        case .M5StackType, .M5StickCType, .WatlaaType, .DexcomG4Type, .DexcomG5Type, .BluconType, .BlueReaderType, .DropletType , .GNSentryType, .BubbleType, .MiaoMiaoType, .AtomType, .Libre2Type:
+            
+            return false
             
         }
         
