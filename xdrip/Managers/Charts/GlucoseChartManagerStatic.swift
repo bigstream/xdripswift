@@ -5,7 +5,7 @@ import os.log
 import UIKit
 import CoreData
 
-public class GlucoseChartManager {
+public final class GlucoseChartManagerStatic {
     
     /// to hold range of glucose chartpoints
     /// - urgentRange = above urgentHighMarkValue or below urgentLowMarkValue
@@ -118,19 +118,19 @@ public class GlucoseChartManager {
     
     /// - parameters:
     ///     - chartLongPressGestureRecognizer : defined here as parameter so that this class can handle the config of the recognizer
-    init(chartLongPressGestureRecognizer: UILongPressGestureRecognizer, coreDataManager: CoreDataManager) {
+    init(coreDataManager: CoreDataManager) {
         
         // set coreDataManager and bgReadingsAccessor
         self.coreDataManager = coreDataManager
         
         // for tapping the chart, we're using UILongPressGestureRecognizer because UITapGestureRecognizer doesn't react on touch down. With UILongPressGestureRecognizer and minimumPressDuration set to 0, we get a trigger as soon as the chart is touched
-        chartLongPressGestureRecognizer.minimumPressDuration = 0
+//        chartLongPressGestureRecognizer.minimumPressDuration = 0
         
         // initialize enddate
         endDate = Date()
         
-        // intialize startdate, which is enddate minus a few hours
-        startDate = endDate.addingTimeInterval(.hours(-UserDefaults.standard.chartWidthInHours))
+        // intialize startdate, which is enddate minus 24 hours
+        startDate = endDate.addingTimeInterval(.hours(-24))
         
     }
     
@@ -315,188 +315,7 @@ public class GlucoseChartManager {
         return glucoseChart
     }
     
-    /// handles either UIPanGestureRecognizer or UILongPressGestureRecognizer.  UILongPressGestureRecognizer is there to detect taps
-    /// - parameters:
-    ///     - completionhandler : any block that caller wants to see executed when chart has been updated
-    ///     - chartOutlet : needed to trigger updated of chart
-    public func handleUIGestureRecognizer(recognizer: UIGestureRecognizer, chartOutlet: BloodGlucoseChartView, completionHandler: (() -> ())?) {
-        
-        if let uiPanGestureRecognizer = recognizer as? UIPanGestureRecognizer {
-            
-            handleUiPanGestureRecognizer(uiPanGestureRecognizer: uiPanGestureRecognizer, chartOutlet: chartOutlet, completionHandler: completionHandler)
-            
-        } else if let uiLongPressGestureRecognizer = recognizer as? UILongPressGestureRecognizer {
-            
-            handleUiLongPressGestureRecognizer(uiLongPressGestureRecognizer: uiLongPressGestureRecognizer, chartOutlet: chartOutlet)
-            
-        }
-        
-    }
-    
     // MARK: - private functions
-    
-    private func stopDeceleration() {
-        
-        // user touches the chart, in case we're handling a decelerating gesture, stop it
-        // call to suspend doesn't really seem to stop the deceleration, that's why also setting to nil and using stopDecelerationNextGestureTimerRun
-        gestureTimer?.suspend()
-        gestureTimer = nil
-        stopDecelerationNextGestureTimerRun = true
-        
-    }
-    
-    private func handleUiLongPressGestureRecognizer(uiLongPressGestureRecognizer: UILongPressGestureRecognizer, chartOutlet: BloodGlucoseChartView) {
-        
-        if uiLongPressGestureRecognizer.state == .began {
-            
-            stopDeceleration()
-            
-        }
-        
-    }
-    
-    private func handleUiPanGestureRecognizer(uiPanGestureRecognizer: UIPanGestureRecognizer, chartOutlet: BloodGlucoseChartView, completionHandler: (() -> ())?) {
-        
-        if uiPanGestureRecognizer.state == .began {
-            
-            // user touches the chart, possibily chart is still decelerating from a previous pan. Needs to be stopped
-            stopDeceleration()
-            
-        }
-        
-        let translationX = uiPanGestureRecognizer.translation(in: uiPanGestureRecognizer.view).x
-        
-        // if translationX negative and if not chartIsPannedBackward, then stop processing, we're not going back to the future
-        if !chartIsPannedBackward && translationX < 0 {
-            uiPanGestureRecognizer.setTranslation(CGPoint.zero, in: chartOutlet)
-            
-            return
-            
-        }
-        
-        // user either started panning backward or continues panning (back or forward). Assume chart is currently in backward panned state, which is not necessarily true
-        chartIsPannedBackward = true
-        
-        if uiPanGestureRecognizer.state == .ended {
-            
-            // user has lifted finger. Deceleration needs to be done.
-            decelerate(translationX: translationX, velocityX: uiPanGestureRecognizer.velocity(in: uiPanGestureRecognizer.view).x, chartOutlet: chartOutlet, completionHandler: {
-                
-                uiPanGestureRecognizer.setTranslation(CGPoint.zero, in: chartOutlet)
-                
-                // call the completion handler that was created by the original caller, in this case RootViewController created this code block
-                if let completionHandler = completionHandler {
-                    completionHandler()
-                }
-                
-            })
-            
-        } else {
-            
-            // ongoing panning
-            
-            // this will update the chart and set new start and enddate, for specific translation
-            setNewStartAndEndDate(translationX: translationX, chartOutlet: chartOutlet, completionHandler: {
-                
-                uiPanGestureRecognizer.setTranslation(CGPoint.zero, in: chartOutlet)
-                
-                // call the completion handler that was created by the original caller, in this case RootViewController created this code block
-                if let completionHandler = completionHandler {
-                    completionHandler()
-                }
-                
-            })
-            
-        }
-        
-    }
-    
-    /// - will call setNewStartAndEndDate with a new translationX value, every x milliseconds, x being 30 milliseconds by default as defined in the constants.
-    /// - Every time the new values are set, the completion handler will be called
-    /// - Every time the new values are set, chartOutlet will be updated
-    private func decelerate(translationX: CGFloat, velocityX: CGFloat, chartOutlet: BloodGlucoseChartView, completionHandler: @escaping () -> ()) {
-        
-        //The default deceleration rate is λ = 0.998, meaning that the scroll view loses 0.2% of its velocity per millisecond.
-        //The distance traveled is the area under the curve in a velocity-time-graph, thus the distance traveled until the content comes to rest is the integral of the velocity from zero to infinity.
-        // current deceleration = v*λ^t, t in milliseconds
-        // distanceTravelled = integral of current deceleration from 0 to actual time = λ^t/ln(λ) - λ^0/ln(λ)
-        // this is multiplied with 0.001, I don't know why but the result matches the formula that is advised by Apple to calculate target x, target x would be translationX + (velocityX / 1000.0) * decelerationRate / (1.0 - decelerationRate)
-        
-        /// this is the integral calculated for time 0
-        let constant = Double(velocityX) *  pow(Double(ConstantsGlucoseChart.decelerationRate), 0.0) / log(Double(ConstantsGlucoseChart.decelerationRate))
-        
-        /// the start time, actual elapsed time will always be calculated agains this value
-        let initialStartOfDecelerationTimeStampInMilliseconds = Date().toMillisecondsAsDouble()
-        
-        /// initial distance travelled is nul, this will be increased each time
-        var distanceTravelled: CGFloat = 0.0
-        
-        // set stopDecelerationNextGestureTimerRun to false initially
-        stopDecelerationNextGestureTimerRun = false
-        
-        // at regular intervals new distance to travel the chart will be calculated and setNewStartAndEndDate will be called
-        gestureTimer = RepeatingTimer(timeInterval: TimeInterval(Double(ConstantsGlucoseChart.decelerationTimerValueInSeconds)), eventHandler: {
-            
-            // if stopDecelerationNextGestureTimerRun is set, then return
-            if self.stopDecelerationNextGestureTimerRun {
-                return
-            }
-            
-            // what is the elapsed time since the user ended the panning
-            let timeSinceStart = Date().toMillisecondsAsDouble() - initialStartOfDecelerationTimeStampInMilliseconds
-            
-            // calculate additional distance to travel the chart - this is the integral function again that is used
-            let additionalDistanceToTravel = CGFloat(round(0.001*(
-                                                            
-                                                            Double(velocityX) *  pow(Double(ConstantsGlucoseChart.decelerationRate), timeSinceStart) / log(Double(ConstantsGlucoseChart.decelerationRate))
-                                                                
-                                                                - constant))) - distanceTravelled
-            
-            // if less than 2 pixels then stop the gestureTimer
-            if abs(additionalDistanceToTravel) < 2 {
-                self.stopDeceleration()
-            }
-            
-            self.setNewStartAndEndDate(translationX: translationX + additionalDistanceToTravel, chartOutlet: chartOutlet, completionHandler: completionHandler)
-            
-            // increase distance already travelled
-            distanceTravelled += additionalDistanceToTravel
-            
-        })
-        
-        // start the timer
-        gestureTimer?.resume()
-        
-    }
-    
-    /// - calculates new startDate and endDate
-    /// - updates glucseChartPoints array for given translation
-    /// - uptdates chartOutlet
-    /// - calls block in completion handler.
-    private func setNewStartAndEndDate(translationX: CGFloat, chartOutlet: BloodGlucoseChartView, completionHandler: @escaping () -> ()) {
-        
-        // calculate new start and enddate, based on how much the user's been panning
-        var newEndDate = endDate.addingTimeInterval(-diffInSecondsBetweenTwoPoints * Double(translationX))
-        
-        // maximum value should be current date
-        if newEndDate > Date() {
-            
-            newEndDate = Date()
-            
-            // this is also the time to set chartIsPannedBackward to false, user is panning back to the future, he can not pan further than the endDate so that chart will not be any panned state anymore
-            chartIsPannedBackward = false
-            
-            // stop the deceleration
-            stopDeceleration()
-            
-        }
-        
-        // newStartDate = enddate minus current difference between endDate and startDate
-        let newStartDate = Date(timeInterval: -self.endDate.timeIntervalSince(self.startDate), since: newEndDate)
-        
-        updateChartPoints(endDate: newEndDate, startDate: newStartDate, chartOutlet: chartOutlet, completionHandler: completionHandler)
-        
-    }
     
     private func generateGlucoseChartWithFrame(_ frame: CGRect) -> Chart? {
         
@@ -823,9 +642,7 @@ public class GlucoseChartManager {
     /// - set data to nil, will be called eg to clean up memory when going to the background
     /// - all needed variables will will be reinitialized as soon as data() is called
     private func nillifyData() {
-        
-        stopDeceleration()
-        
+                
         glucoseChartPoints = ([ChartPoint](), [ChartPoint](), [ChartPoint](), nil, nil, nil)
         
         calibrationChartPoints = [ChartPoint]()

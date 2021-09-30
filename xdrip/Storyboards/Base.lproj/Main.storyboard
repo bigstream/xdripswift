@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
     <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -22,14 +22,23 @@
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3wt-CH-AL5">
                                         <rect key="frame" x="0.0" y="0.0" width="350" height="60"/>
-                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <subviews>
+                                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Test" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Spv-cv-cXi">
+                                                <rect key="frame" x="0.0" y="0.0" width="0.0" height="20.333333333333332"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="60" id="IFS-Kr-CIX"/>
                                         </constraints>
                                     </stackView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lne-db-yuA" customClass="BloodGlucoseChartView" customModule="xdrip" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="60" width="350" height="700"/>
-                                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <accessibility key="accessibilityConfiguration">
+                                            <accessibilityTraits key="traits" notEnabled="YES"/>
+                                        </accessibility>
                                     </view>
                                 </subviews>
                             </stackView>
@@ -45,6 +54,7 @@
                     </view>
                     <connections>
                         <outlet property="landscapeChartOutlet" destination="lne-db-yuA" id="Rau-kN-CIn"/>
+                        <outlet property="testLabelOutlet" destination="Spv-cv-cXi" id="pYz-z2-DQO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KZT-Nh-dNE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -545,7 +555,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="g4X-8R-g01">
-                                <rect key="frame" x="0.0" y="70" width="390" height="637"/>
+                                <rect key="frame" x="0.0" y="70" width="390" height="671"/>
                                 <color key="backgroundColor" white="0.10000000000000001" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="blue" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SettingsCell" textLabel="tIz-Hj-yxH" detailTextLabel="Tpl-mr-dqb" style="IBUITableViewCellStyleValue1" id="zQ9-Zy-4Lu" customClass="SettingsTableViewCell" customModule="xdrip" customModuleProvider="target">
@@ -857,7 +867,7 @@
                                 <color key="backgroundColor" white="0.10000000000000001" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="SettingsCell" textLabel="goS-0m-pgb" detailTextLabel="cVj-Us-dOZ" style="IBUITableViewCellStyleValue1" id="FDQ-j1-PHb" customClass="SettingsTableViewCell" customModule="xdrip" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="24.333333969116211" width="390" height="43.666667938232422"/>
+                                        <rect key="frame" x="0.0" y="44.666666030883789" width="390" height="43.666667938232422"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="FDQ-j1-PHb" id="MjR-zz-9Ea">
                                             <rect key="frame" x="0.0" y="0.0" width="390" height="43.666667938232422"/>
@@ -1508,7 +1518,7 @@
                                     <color key="backgroundColor" white="0.10000000000000001" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <prototypes>
                                         <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SettingsCell" textLabel="7vO-nL-nIV" detailTextLabel="raE-D9-ezV" style="IBUITableViewCellStyleValue1" id="AIS-Dk-Hw0" customClass="SettingsTableViewCell" customModule="xdrip" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="24.333333969116211" width="390" height="43.666667938232422"/>
+                                            <rect key="frame" x="0.0" y="44.666666030883789" width="390" height="43.666667938232422"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="AIS-Dk-Hw0" id="TX7-lE-K3L">
                                                 <rect key="frame" x="0.0" y="0.0" width="390" height="43.666667938232422"/>
@@ -1602,7 +1612,7 @@
         <image name="Settings" width="30" height="30"/>
         <image name="link.circle" catalog="system" width="128" height="121"/>
         <image name="lock" catalog="system" width="128" height="128"/>
-        <image name="moon.zzz" catalog="system" width="121" height="128"/>
+        <image name="moon.zzz" catalog="system" width="115" height="128"/>
         <image name="scope" catalog="system" width="128" height="122"/>
         <image name="sensor14_14_alt" width="390" height="14"/>
         <systemColor name="systemGrayColor">
