@@ -507,35 +507,11 @@ public final class GlucoseChartManagerStatic {
     
     private func generateXAxisValues() -> [ChartAxisValue] {
         
-        // in the comments, assume it is now 13:26 and width is 6 hours, that means startDate = 07:26, endDate = 13:26
         
-        /// how many full hours between startdate and enddate
-        let amountOfFullHours = Int(ceil(endDate.timeIntervalSince(startDate).hours))
-        
-        /// create array that goes from 1 to number of full hours, as helper to map to array of ChartAxisValueDate - array will go from 1 to 6
-        let mappingArray = Array(1...amountOfFullHours)
-        
-        /// set the stride count interval to make sure we don't add too many labels to the x-axis if the user wants to view >6 hours
-        var intervalBetweenAxisValues: Int = 1
-            
-        switch UserDefaults.standard.chartWidthInHours {
-            case 12.0:
-                intervalBetweenAxisValues = 2
-            case 24.0:
-                intervalBetweenAxisValues = 4
-            default:
-                break
-        }
-        
-        /// first, for each int in mappingArray, we create a ChartAxisValueDate, which will have as date one of the hours, starting with the lower hour + 1 hour - we will create 5 in this example, starting with hour 08 (7 + 3600 seconds)
+        // first, for each int in mappingArray, we create a ChartAxisValueDate, which will have as date one of the hours, starting with the lower hour + 1 hour - we will create 5 in this example, starting with hour 08 (7 + 3600 seconds)
         let startDateLower = startDate.toLowerHour()
-        var xAxisValues: [ChartAxisValue] = stride(from: 1, to: mappingArray.count + 1, by: intervalBetweenAxisValues).map { ChartAxisValueDate(date: Date(timeInterval: Double($0)*3600, since: startDateLower), formatter: data().axisLabelTimeFormatter, labelSettings: data().chartLabelSettings) }
         
-        /// insert the start Date as first element, in this example 07:26
-        xAxisValues.insert(ChartAxisValueDate(date: startDate, formatter: data().axisLabelTimeFormatter, labelSettings: data().chartLabelSettings), at: 0)
-        
-        /// now append the endDate as last element, in this example 13:26
-        xAxisValues.append(ChartAxisValueDate(date: endDate, formatter: data().axisLabelTimeFormatter, labelSettings: data().chartLabelSettings))
+        var xAxisValues: [ChartAxisValue] = stride(from: 0, to: 26, by: 2).map { ChartAxisValueDate(date: Date(timeInterval: Double($0)*3600, since: startDateLower), formatter: data().axisLabelTimeFormatter, labelSettings: data().chartLabelSettings) }
         
         /// don't show the first and last hour, because this is usually not something like 13 but rather 13:26
         xAxisValues.first?.hidden = true

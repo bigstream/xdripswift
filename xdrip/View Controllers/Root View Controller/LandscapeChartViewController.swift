@@ -12,8 +12,17 @@ class LandscapeChartViewController: UIViewController {
 
     @IBOutlet weak var landscapeChartOutlet: BloodGlucoseChartView!
     
-    @IBOutlet weak var testLabelOutlet: UILabel!
+    @IBOutlet weak var dateLabelOutlet: UILabel!
     
+    @IBOutlet weak var inRangeLabelOutlet: UILabel!
+    
+    @IBOutlet weak var averageLabelOutlet: UILabel!
+    
+    @IBOutlet weak var cvLabelOutlet: UILabel!
+    
+    @IBOutlet weak var activityIndicatorOutlet: UIActivityIndicatorView!
+    
+    // glucoseChartManager - we'll use the Static class as there are no gestures needed
     private var glucoseChartManager: GlucoseChartManagerStatic?
     
     /// coreDataManager to be used throughout the project
@@ -23,16 +32,13 @@ class LandscapeChartViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        testLabelOutlet.text = "This is a test label"
-        
-        
         // Setup Core Data Manager - setting up coreDataManager happens asynchronously
         // completion handler is called when finished. This gives the app time to already continue setup which is independent of coredata, like initializing the views
         coreDataManager = CoreDataManager(modelName: ConstantsCoreData.modelName, completion: {
             
             
             // if coreDataManager is nil then there's no reason to continue
-            guard let coreDataManager = self.coreDataManager else {
+            guard self.coreDataManager != nil else {
                 return
             }
             
