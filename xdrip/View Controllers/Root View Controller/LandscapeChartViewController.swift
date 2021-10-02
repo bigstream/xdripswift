@@ -21,37 +21,29 @@ class LandscapeChartViewController: UIViewController {
     @IBOutlet weak var cvTitleLabelOutlet: UILabel!
     @IBOutlet weak var cvLabelOutlet: UILabel!
     
-    @IBOutlet weak var activityIndicatorOutlet: UIActivityIndicatorView!
+    @IBOutlet weak var noDataLabelOutlet: UILabel!
     
     @IBOutlet weak var dateLabelOutlet: UILabel!
     
+    @IBOutlet weak var backButtonOutlet: UIButton!
+    
+    @IBOutlet weak var forwardButtonOutlet: UIButton!
+    
     @IBAction func backButtonPressed(_ sender: Any) {
         
-        // remove one day from the selectedDate
-        var newDateToUse: Date {
-            var components = DateComponents()
-            components.day = -1
-            return Calendar.current.date(byAdding: components, to: selectedDate)!
-        }
+        // subtract a day from the selected date
+        selectedDate = selectedDate.addingTimeInterval(-24 * 60 * 60).toMidnight()
         
-        selectedDate = newDateToUse
-        
-        updateChartAndLabels()
+        updateView()
         
     }
     
     @IBAction func forwardButtonPressed(_ sender: Any) {
         
-        // add one day to the selectedDate
-        var newDateToUse: Date {
-            var components = DateComponents()
-            components.day = +1
-            return Calendar.current.date(byAdding: components, to: selectedDate)!
-        }
+        // add a day from the selected date
+        selectedDate = selectedDate.addingTimeInterval(24 * 60 * 60).toMidnight()
         
-        selectedDate = newDateToUse
-        
-        updateChartAndLabels()
+        updateView()
         
     }
     
@@ -61,6 +53,9 @@ class LandscapeChartViewController: UIViewController {
     /// glucoseChartManager
     private var glucoseChartManager: GlucoseChartManager?
     
+    /// BgReadingsAccessor instance
+    private var bgReadingsAccessor:BgReadingsAccessor?
+    
     /// coreDataManager to be used throughout the project
     private var coreDataManager: CoreDataManager?
     
@@ -68,14 +63,17 @@ class LandscapeChartViewController: UIViewController {
     private var statisticsManager: StatisticsManager?
     
     /// date that will be used to show the 24 hour chart. Initialise it for today.
-    private var selectedDate: Date = Date()
+    private var selectedDate: Date = Date().toMidnight()
+    
+    /// store the first and last BgReading dates to make it easier to enable/disable the buttons
+    private var firstBgReadingDate: Date = Date()
     
     private let dateFormatter: DateFormatter = {
         
         let dateFormatter = DateFormatter()
 
         dateFormatter.dateFormat = ConstantsGlucoseChart.dateFormatLandscapeChart
-        
+
         return dateFormatter
         
     }()
@@ -95,37 +93,43 @@ class LandscapeChartViewController: UIViewController {
                 return
             }
             
-            self.updateChartAndLabels()
+            self.updateView()
             
         })
         
         // initialize glucoseChartManager
         glucoseChartManager = GlucoseChartManager(coreDataManager: coreDataManager!)
         
+        // initialize statisticsManager
+        statisticsManager = StatisticsManager(coreDataManager: coreDataManager!)
         
         // initialize chartGenerator in chartOutlet
         self.landscapeChartOutlet.chartGenerator = { [weak self] (frame) in
             return self?.glucoseChartManager?.glucoseChartWithFrame(frame)?.view
         }
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        
         // set the title labels to their correct localization
         self.inRangeTitleLabelOutlet.text = Texts_Common.inRangeStatistics
         self.averageTitleLabelOutlet.text = Texts_Common.averageStatistics
         self.cvTitleLabelOutlet.text = Texts_Common.cvStatistics
-            
-        updateChartAndLabels()
+        
+        updateView()
         
     }
     
+    
+    // MARK: private helper functions
+    
     // this function should do the following:
     // - show the currently selected date
-    // - clear the text values in the statistics
-    // - activate the activity indicator whilst we display the chart and calculate the statistics
     // - update the chart points
-    // - call the StatisticsManager and wait for the results to be finished
-    // - update the label outlets
-    // - disable/enable buttons if no more readings are available before or after the selected date
-    private func updateChartAndLabels() {
+    // - update the statistics values
+    // - update the button status
+    private func updateView() {
         
         // set the selected date outlet
         dateLabelOutlet.text = dateFormatter.string(from: selectedDate)
@@ -133,63 +137,74 @@ class LandscapeChartViewController: UIViewController {
         // we need to define the start and end times of the day that has been selected
         let startOfDay = Calendar(identifier: .gregorian).startOfDay(for: selectedDate)
         
-        var components = DateComponents()
-        components.day = 1
-        components.second = -1
-        let endOfDay = Calendar.current.date(byAdding: components, to: startOfDay)!
+        // add a day and subtract one second to get one second before midnight
+        let endOfDay = startOfDay.addingTimeInterval((24 * 60 * 60) - 1)
         
         // update the chart
         glucoseChartManager?.updateChartPoints(endDate: endOfDay, startDate: startOfDay, chartOutlet: landscapeChartOutlet, completionHandler: nil)
         
-        updateStatistics()
+        updateStatistics(startOfDay: startOfDay, endOfDay: endOfDay)
         
+        updateButtons()
         
     }
 
     
     // helper function to calculate the statistics and update the pie chart and label outlets
-    private func updateStatistics() {
+    private func updateStatistics(startOfDay: Date, endOfDay: Date) {
         
-        // don't calculate statis if app is not running in the foreground
-        guard UIApplication.shared.applicationState == .active else {return}
-        
-        
-        // declare constants/variables
+        // just to make things easier to read
         let isMgDl: Bool = UserDefaults.standard.bloodGlucoseUnitIsMgDl
         
-        let startOfDay = Calendar(identifier: .gregorian).startOfDay(for: selectedDate)
-        
-        var components = DateComponents()
-        components.day = 1
-        components.second = -1
-        let endOfDay = Calendar.current.date(byAdding: components, to: startOfDay)!
-        
-        // blank out the statistics and show the activity indicator
-        inRangeLabelOutlet.text = "-"
-        averageLabelOutlet.text = "-"
-        cvLabelOutlet.text = "-"
-        activityIndicatorOutlet.isHidden = false
+        // darken the text of the statistics
+        inRangeLabelOutlet.textColor = UIColor.darkGray
+        averageLabelOutlet.textColor = UIColor.darkGray
+        cvLabelOutlet.textColor = UIColor.darkGray
         
         // statisticsManager will calculate the statistics in background thread and call the callback function in the main thread
         statisticsManager?.calculateStatistics(fromDate: startOfDay, toDate: endOfDay, callback: { statistics in
             
-            self.inRangeLabelOutlet.text = Int(statistics.inRangeStatisticValue.round(toDecimalPlaces: 0)).description + "%"
-        
-            // if there are no values returned (new sensor?) then just leave the default "-" showing
-            if statistics.averageStatisticValue.value > 0 {
-                self.averageLabelOutlet.text = (isMgDl ? Int(statistics.averageStatisticValue.round(toDecimalPlaces: 0)).description : statistics.averageStatisticValue.round(toDecimalPlaces: 1).description) + (isMgDl ? " mg/dl" : " mmol/l")
-            }
+            // if there are no values returned then just leave a placeholder and darken the text
+            if statistics.inRangeStatisticValue.value > 0 {
+                
+                self.inRangeLabelOutlet.text = Int(statistics.inRangeStatisticValue.round(toDecimalPlaces: 0)).description + "%"
+                
+                self.averageLabelOutlet.text = (isMgDl ? Int(statistics.averageStatisticValue.round(toDecimalPlaces: 0)).description : statistics.averageStatisticValue.round(toDecimalPlaces: 1).description) + " " + (isMgDl ? Texts_Common.mgdl : Texts_Common.mmol)
             
-            
-            // if there are no values returned (new sensor?) then just leave the default "-" showing
-            if statistics.cVStatisticValue.value > 0 {
                 self.cvLabelOutlet.text = Int(statistics.cVStatisticValue.round(toDecimalPlaces: 0)).description + "%"
+                
+                self.inRangeLabelOutlet.textColor = UIColor.lightGray
+                self.averageLabelOutlet.textColor = UIColor.lightGray
+                self.cvLabelOutlet.textColor = UIColor.lightGray
+                self.noDataLabelOutlet.isHidden = true
+                self.dateLabelOutlet.textColor = UIColor.lightGray
+                
+            } else {
+                
+                // no values have been returned for this date so let's just make it obvious to the user
+                self.inRangeLabelOutlet.text = "--%"
+                
+                self.averageLabelOutlet.text = isMgDl ? "--- " + Texts_Common.mgdl : "-- " + Texts_Common.mmol
+                self.cvLabelOutlet.text = "--%"
+                
+                self.inRangeLabelOutlet.textColor = UIColor.darkGray
+                self.averageLabelOutlet.textColor = UIColor.darkGray
+                self.cvLabelOutlet.textColor = UIColor.darkGray
+                self.noDataLabelOutlet.isHidden = false
+                self.dateLabelOutlet.textColor = UIColor.darkGray
+                
             }
-            
-            // calculations are done so let's hide the activity indicator again
-            self.activityIndicatorOutlet.isHidden = true
             
         })
     }
+    
+    // This will disable the forward button if we're already at "today"
+    // Keep this as a function just in case we decide to add further validations at some point
+    private func updateButtons() {
+        
+        forwardButtonOutlet.isEnabled = !Calendar.current.isDateInToday(selectedDate)
+        
+    }
+    
     
 }
