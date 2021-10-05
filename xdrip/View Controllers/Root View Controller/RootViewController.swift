@@ -7,11 +7,24 @@ import SwiftCharts
 import HealthKitUI
 import AVFoundation
 import PieCharts
+import WatchConnectivity
 
 /// viewcontroller for the home screen
 final class RootViewController: UIViewController {
     
     // MARK: - Properties - Outlets and Actions for buttons and labels in home screen
+    
+    private var session: WCSession?
+    
+    @IBAction func tapSendDataToWatch(_ sender: Any) {
+
+        updateWatchApp(value: "143 ↗︎", valueColor: "inRange")
+        
+        updateWatchApp(minutesAgo: "3m ago", delta: "+2 mg/dl", valueColor: "notUrgent")
+        
+        updateWatchApp(minutesAgo: "4m ago")
+        
+    }
     
     @IBOutlet weak var preSnoozeToolbarButtonOutlet: UIBarButtonItem!
     
@@ -394,6 +407,7 @@ final class RootViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.configureWatchKitSession()
         
         // set up the clock view
         clockDateFormatter.dateStyle = .none
@@ -1223,6 +1237,16 @@ final class RootViewController: UIViewController {
     }
     
     // MARK: - View Methods
+    
+    
+    func configureWatchKitSession() {
+        
+        if WCSession.isSupported() {//4.1
+            session = WCSession.default//4.2
+            session?.delegate = self//4.3
+            session?.activate()//4.4
+        }
+    }
     
     /// Configure View, only stuff that is independent of coredata
     private func setupView() {
@@ -2411,6 +2435,44 @@ final class RootViewController: UIViewController {
         }
         
     }
+    
+    private func updateWatchApp(value: String? = nil, minutesAgo: String? = nil, delta: String? = nil, valueColor: String? = nil){
+        
+        if let validSession = self.session, validSession.isReachable {
+            
+            if value != nil {
+                
+                let data: [String: Any] = ["value": value as Any] // Create your Dictionay as per uses
+                validSession.sendMessage(data, replyHandler: nil, errorHandler: nil)
+                
+            }
+            
+            if minutesAgo != nil {
+                
+                let data: [String: Any] = ["minutesAgo": minutesAgo as Any] // Create your Dictionay as per uses
+                validSession.sendMessage(data, replyHandler: nil, errorHandler: nil)
+                
+            }
+            
+            if delta != nil {
+                
+                let data: [String: Any] = ["delta": delta as Any] // Create your Dictionay as per uses
+                validSession.sendMessage(data, replyHandler: nil, errorHandler: nil)
+                
+            }
+            
+            if valueColor != nil {
+                
+                let data: [String: Any] = ["valueColor": valueColor as Any] // Create your Dictionay as per uses
+                validSession.sendMessage(data, replyHandler: nil, errorHandler: nil)
+                
+            }
+            
+            
+        }
+    
+    }
+    
 }
 
 
@@ -2662,4 +2724,26 @@ extension RootViewController: UIGestureRecognizerDelegate {
         
     }
     
+}
+
+// WCSession delegate functions
+extension RootViewController: WCSessionDelegate {
+    
+    func sessionDidBecomeInactive(_ session: WCSession) {
+    }
+    
+    func sessionDidDeactivate(_ session: WCSession) {
+    }
+    
+    func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
+    }
+    
+    func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
+        print("received message: \(message)")
+        DispatchQueue.main.async { //6
+            if let value = message["watch"] as? String {
+                self.minutesLabelOutlet.text = value
+            }
+        }
+    }
 }
