@@ -45,11 +45,6 @@
                                             </barButtonItem>
                                             <barButtonItem style="plain" systemItem="flexibleSpace" id="Bnf-FN-LqX"/>
                                             <barButtonItem style="plain" systemItem="flexibleSpace" id="RyT-fq-4T4"/>
-                                            <barButtonItem image="applewatch.watchface" catalog="system" id="1RR-g9-Cuu">
-                                                <connections>
-                                                    <action selector="tapSendDataToWatch:" destination="9pv-A4-QxB" id="clD-Sk-aRh"/>
-                                                </connections>
-                                            </barButtonItem>
                                             <barButtonItem style="plain" systemItem="flexibleSpace" id="j8m-u9-TiC"/>
                                             <barButtonItem image="lock" catalog="system" id="wfX-50-2w6">
                                                 <connections>
@@ -1562,7 +1557,6 @@
         <image name="Bluetooth" width="30" height="30"/>
         <image name="Home" width="30" height="30"/>
         <image name="Settings" width="30" height="30"/>
-        <image name="applewatch.watchface" catalog="system" width="112" height="128"/>
         <image name="link.circle" catalog="system" width="128" height="121"/>
         <image name="lock" catalog="system" width="128" height="128"/>
         <image name="moon.zzz" catalog="system" width="115" height="128"/>

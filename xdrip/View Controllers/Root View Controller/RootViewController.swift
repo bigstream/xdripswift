@@ -16,16 +16,6 @@ final class RootViewController: UIViewController {
     
     private var session: WCSession?
     
-    @IBAction func tapSendDataToWatch(_ sender: Any) {
-
-        updateWatchApp(value: "143 ↗︎", valueColor: "inRange")
-        
-        updateWatchApp(minutesAgo: "3m ago", delta: "+2 mg/dl", valueColor: "notUrgent")
-        
-        updateWatchApp(minutesAgo: "4m ago")
-        
-    }
-    
     @IBOutlet weak var preSnoozeToolbarButtonOutlet: UIBarButtonItem!
     
     @IBAction func preSnoozeToolbarButtonAction(_ sender: UIBarButtonItem) {
@@ -1755,6 +1745,8 @@ final class RootViewController: UIViewController {
             
         }
         
+        updateWatchApp(value: calculatedValueAsString)
+        
         // to make follow code a bit more readable
         let mgdl = UserDefaults.standard.bloodGlucoseUnitIsMgDl
         
@@ -1762,16 +1754,31 @@ final class RootViewController: UIViewController {
         // if not, then set color, depending on value lower than low mark or higher than high mark
         // set both HIGH and LOW BG values to red as previous yellow for hig is now not so obvious due to in-range colour of green.
         if lastReading.timeStamp < Date(timeIntervalSinceNow: -60 * 11) {
+            
             valueLabelOutlet.textColor = UIColor.lightGray
+            
+            updateWatchApp(valueColor: "stale")
+            
         } else if lastReading.calculatedValue.bgValueRounded(mgdl: mgdl) >= UserDefaults.standard.urgentHighMarkValueInUserChosenUnit.mmolToMgdl(mgdl: mgdl).bgValueRounded(mgdl: mgdl) || lastReading.calculatedValue.bgValueRounded(mgdl: mgdl) <= UserDefaults.standard.urgentLowMarkValueInUserChosenUnit.mmolToMgdl(mgdl: mgdl).bgValueRounded(mgdl: mgdl) {
+            
             // BG is higher than urgentHigh or lower than urgentLow objectives
             valueLabelOutlet.textColor = UIColor.red
+            
+            updateWatchApp(valueColor: "urgent")
+            
         } else if lastReading.calculatedValue.bgValueRounded(mgdl: mgdl) >= UserDefaults.standard.highMarkValueInUserChosenUnit.mmolToMgdl(mgdl: mgdl).bgValueRounded(mgdl: mgdl) || lastReading.calculatedValue.bgValueRounded(mgdl: mgdl) <= UserDefaults.standard.lowMarkValueInUserChosenUnit.mmolToMgdl(mgdl: mgdl).bgValueRounded(mgdl: mgdl) {
+            
             // BG is between urgentHigh/high and low/urgentLow objectives
             valueLabelOutlet.textColor = UIColor.yellow
+            
+            updateWatchApp(valueColor: "notUrgent")
+            
         } else {
+            
             // BG is between high and low objectives so considered "in range"
             valueLabelOutlet.textColor = UIColor.green
+            
+            updateWatchApp(valueColor: "inRange")
         }
         
         // get minutes ago and create text for minutes ago label
@@ -1780,8 +1787,12 @@ final class RootViewController: UIViewController {
         
         minutesLabelOutlet.text = minutesAgoText
         
+        updateWatchApp(minutesAgo: minutesAgoText)
+        
         // create delta text
         diffLabelOutlet.text = lastReading.unitizedDeltaString(previousBgReading: lastButOneReading, showUnit: true, highGranularity: true, mgdl: UserDefaults.standard.bloodGlucoseUnitIsMgDl)
+        
+        updateWatchApp(delta: lastReading.unitizedDeltaString(previousBgReading: lastButOneReading, showUnit: true, highGranularity: true, mgdl: UserDefaults.standard.bloodGlucoseUnitIsMgDl))
         
         // update the chart up to now
         updateChartWithResetEndDate()
@@ -2436,7 +2447,7 @@ final class RootViewController: UIViewController {
         
     }
     
-    private func updateWatchApp(value: String? = nil, minutesAgo: String? = nil, delta: String? = nil, valueColor: String? = nil){
+    private func updateWatchApp(value: String? = nil, minutesAgo: String? = nil, delta: String? = nil, valueColor: String? = nil, timestamp: Date = Date()){
         
         if let validSession = self.session, validSession.isReachable {
             
@@ -2467,6 +2478,10 @@ final class RootViewController: UIViewController {
                 validSession.sendMessage(data, replyHandler: nil, errorHandler: nil)
                 
             }
+            
+            let data: [String: Any] = ["datestamp": timestamp as Any]
+            
+            validSession.sendMessage(data, replyHandler: nil, errorHandler: nil)
             
             
         }
@@ -2740,10 +2755,17 @@ extension RootViewController: WCSessionDelegate {
     
     func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
         print("received message: \(message)")
-        DispatchQueue.main.async { //6
-            if let value = message["watch"] as? String {
-                self.minutesLabelOutlet.text = value
+        DispatchQueue.main.async {
+            
+            if let action = message["action"] as? String {
+                
+                if action == "refresh" {
+                    
+                    self.updateLabelsAndChart()
+                    
+                }
             }
+            
         }
     }
 }

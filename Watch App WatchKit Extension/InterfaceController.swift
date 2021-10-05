@@ -20,8 +20,10 @@ class InterfaceController: WKInterfaceController {
     @IBOutlet weak var valueLabelOutlet: WKInterfaceLabel!
     
     @IBAction func tapSendToiPhone() {
-        let data: [String: Any] = ["watch": "data from watch" as Any] //Create your dictionary as per uses
-        session.sendMessage(data, replyHandler: nil, errorHandler: nil) //**6.1
+        //let data: [String: Any] = ["watch": "data from watch" as Any] //Create your dictionary as per uses
+        let data: [String: Any] = ["action": "refresh" as Any] //Create your dictionary as per uses
+        
+        session.sendMessage(data, replyHandler: nil, errorHandler: nil)
     }
     
     
@@ -30,6 +32,8 @@ class InterfaceController: WKInterfaceController {
         // Configure interface objects here.
         session.delegate = self
         session.activate()
+        
+        refreshData()
     }
     
     override func willActivate() {
@@ -40,6 +44,15 @@ class InterfaceController: WKInterfaceController {
     override func didDeactivate() {
         // This method is called when watch view controller is no longer visible
         super.didDeactivate()
+    }
+    
+    private func refreshData() {
+        
+        let data: [String: Any] = ["action": "refresh" as Any] //Create your dictionary as per uses
+        
+        session.sendMessage(data, replyHandler: nil, errorHandler: nil)
+        
+        
     }
 
 }
@@ -77,6 +90,9 @@ extension InterfaceController: WCSessionDelegate {
                 
             case "urgent":
                 self.valueLabelOutlet.setTextColor(UIColor.red)
+                
+            case "stale":
+                self.valueLabelOutlet.setTextColor(UIColor.lightGray)
                 
             default:
                 break
