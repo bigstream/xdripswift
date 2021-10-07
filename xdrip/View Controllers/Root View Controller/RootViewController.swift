@@ -1071,6 +1071,8 @@ final class RootViewController: UIViewController {
                     // update sensor countdown graphic
                     updateSensorCountdown()
                     
+                    updateWatchApp()
+                    
                 }
                 
                 nightScoutUploadManager?.upload(lastConnectionStatusChangeTimeStamp: lastConnectionStatusChangeTimeStamp())
@@ -1782,16 +1784,14 @@ final class RootViewController: UIViewController {
         
         diffLabelOutlet.text = diffLabelText
         
-        updateWatchApp(deltaTextLocalized: diffLabelText)
-        
         // update the chart up to now
         updateChartWithResetEndDate()
-        
-        let minutesAgoTextLabel = (minutesAgo == 1 ? Texts_Common.minute:Texts_Common.minutes) + " " + Texts_HomeView.ago
+//
+//        let minutesAgoTextLabel = (minutesAgo == 1 ? Texts_Common.minute:Texts_Common.minutes) + " " + Texts_HomeView.ago
                 
-        updateWatchApp(currentBGValueText: calculatedValueAsString, currentBGValue: lastReading.unitizedString(unitIsMgDl: UserDefaults.standard.bloodGlucoseUnitIsMgDl), currentBGTimeStamp: ISO8601DateFormatter().string(from: lastReading.timeStamp), minutesAgoTextLocalized: minutesAgoTextLabel, deltaTextLocalized: diffLabelText)
-        
-        updateWatchApp(urgentLowMarkValueInUserChosenUnit: UserDefaults.standard.urgentLowMarkValueInUserChosenUnitRounded.description, lowMarkValueInUserChosenUnit: UserDefaults.standard.lowMarkValueInUserChosenUnitRounded.description, highMarkValueInUserChosenUnit: UserDefaults.standard.highMarkValueInUserChosenUnitRounded.description, urgentHighMarkValueInUserChosenUnit: UserDefaults.standard.urgentHighMarkValueInUserChosenUnitRounded.description)
+//        updateWatchApp(currentBGValueText: calculatedValueAsString, currentBGValue: lastReading.unitizedString(unitIsMgDl: UserDefaults.standard.bloodGlucoseUnitIsMgDl), currentBGTimeStamp: ISO8601DateFormatter().string(from: lastReading.timeStamp), minutesAgoTextLocalized: minutesAgoTextLabel, deltaTextLocalized: diffLabelText)
+//
+//        updateWatchApp(urgentLowMarkValueInUserChosenUnit: UserDefaults.standard.urgentLowMarkValueInUserChosenUnitRounded.description, lowMarkValueInUserChosenUnit: UserDefaults.standard.lowMarkValueInUserChosenUnitRounded.description, highMarkValueInUserChosenUnit: UserDefaults.standard.highMarkValueInUserChosenUnitRounded.description, urgentHighMarkValueInUserChosenUnit: UserDefaults.standard.urgentHighMarkValueInUserChosenUnitRounded.description)
         
     }
     
@@ -2443,76 +2443,72 @@ final class RootViewController: UIViewController {
         
     }
     
-    private func updateWatchApp(currentBGValueText: String? = nil, currentBGValue: String? = nil, currentBGTimeStamp: String? = nil, minutesAgoTextLocalized: String? = nil, deltaTextLocalized: String? = nil,  urgentLowMarkValueInUserChosenUnit: String? = nil,  lowMarkValueInUserChosenUnit: String? = nil, highMarkValueInUserChosenUnit: String? = nil,  urgentHighMarkValueInUserChosenUnit: String? = nil) {
+    
+    private func updateWatchApp() {
         
         if let validSession = self.session, validSession.isReachable {
             
-            if currentBGValueText != nil {
+            if let validSession = self.session, validSession.isReachable {
                 
-                let data: [String: Any] = ["currentBGValueText": currentBGValueText as Any]
-                validSession.sendMessage(data, replyHandler: nil, errorHandler: nil)
+                let mgdl = UserDefaults.standard.bloodGlucoseUnitIsMgDl
                 
-            }
-            
-            if currentBGValue != nil {
+                // update the Watch app
+                var timeStampLastBgReading = Date(timeIntervalSince1970: 0)
                 
-                let data: [String: Any] = ["currentBGValue": currentBGValue as Any]
-                validSession.sendMessage(data, replyHandler: nil, errorHandler: nil)
+                var calculatedValueAsString = ""
                 
-            }
-            
-            if currentBGTimeStamp != nil {
-                
-                let data: [String: Any] = ["currentBGTimeStamp": currentBGTimeStamp as Any]
-                validSession.sendMessage(data, replyHandler: nil, errorHandler: nil)
-                
-            }
-            
-            if minutesAgoTextLocalized != nil {
-                
-                let data: [String: Any] = ["minutesAgoTextLocalized": minutesAgoTextLocalized as Any]
-                validSession.sendMessage(data, replyHandler: nil, errorHandler: nil)
-                
-            }
-            
-            if deltaTextLocalized != nil {
-                
-                let data: [String: Any] = ["deltaTextLocalized": deltaTextLocalized as Any]
-                validSession.sendMessage(data, replyHandler: nil, errorHandler: nil)
-                
-            }
-            
-            if urgentLowMarkValueInUserChosenUnit != nil {
-                
-                let data: [String: Any] = ["urgentLowMarkValueInUserChosenUnit": urgentLowMarkValueInUserChosenUnit as Any]
-                validSession.sendMessage(data, replyHandler: nil, errorHandler: nil)
-                
-            }
-            
-            if lowMarkValueInUserChosenUnit != nil {
-                
-                let data: [String: Any] = ["lowMarkValueInUserChosenUnit": lowMarkValueInUserChosenUnit as Any]
-                validSession.sendMessage(data, replyHandler: nil, errorHandler: nil)
-                
-            }
-            
-            if highMarkValueInUserChosenUnit != nil {
-                
-                let data: [String: Any] = ["highMarkValueInUserChosenUnit": highMarkValueInUserChosenUnit as Any]
-                validSession.sendMessage(data, replyHandler: nil, errorHandler: nil)
-                
-            }
-            
-            if urgentHighMarkValueInUserChosenUnit != nil {
-                
-                let data: [String: Any] = ["urgentHighMarkValueInUserChosenUnit": urgentHighMarkValueInUserChosenUnit as Any]
-                validSession.sendMessage(data, replyHandler: nil, errorHandler: nil)
+                if let bgReadingsAccessor = bgReadingsAccessor, let lastReading = bgReadingsAccessor.last(forSensor: nil) {
+                    
+                    timeStampLastBgReading = lastReading.timeStamp
+                    
+                    // start creating text for valueLabelOutlet, first the calculated value
+                    calculatedValueAsString = lastReading.unitizedString(unitIsMgDl: mgdl)
+                    
+                    if !lastReading.hideSlope {
+                        calculatedValueAsString = calculatedValueAsString + " " + lastReading.slopeArrow()
+                    }
+                    
+                    let minutesAgo = -Int(timeStampLastBgReading.timeIntervalSinceNow) / 60
+                    
+                    let minutesAgoTextLocalized = (minutesAgo == 1 ? Texts_Common.minute:Texts_Common.minutes) + " " + Texts_HomeView.ago
+                    
+                    let latestReadings = bgReadingsAccessor.get2LatestBgReadings(minimumTimeIntervalInMinutes: 4.0)
+                    
+                    // assign last reading
+                    let lastReading = latestReadings[0]
+                    
+                    // assign last but one reading
+                    let lastButOneReading = latestReadings.count > 1 ? latestReadings[1]:nil
+                    
+                    // create delta text
+                    let diffLabelText = lastReading.unitizedDeltaString(previousBgReading: lastButOneReading, showUnit: true, highGranularity: true, mgdl: mgdl)
+                    
+                    
+                    validSession.sendMessage(["currentBGValueText" : calculatedValueAsString], replyHandler: nil, errorHandler: nil)
+                    
+                    validSession.sendMessage(["currentBGValue" : String(lastReading.calculatedValue.bgValueRounded(mgdl: mgdl))], replyHandler: nil, errorHandler: nil)
+                    
+                    validSession.sendMessage(["currentBGTimeStamp" : ISO8601DateFormatter().string(from: lastReading.timeStamp)
+                                             ], replyHandler: nil, errorHandler: nil)
+                    
+                    validSession.sendMessage(["minutesAgoTextLocalized" : minutesAgoTextLocalized], replyHandler: nil, errorHandler: nil)
+                    
+                    validSession.sendMessage(["deltaTextLocalized" : diffLabelText], replyHandler: nil, errorHandler: nil)
+                    
+                    validSession.sendMessage(["urgentLowMarkValueInUserChosenUnit" : String(UserDefaults.standard.urgentLowMarkValueInUserChosenUnit)], replyHandler: nil, errorHandler: nil)
+                    
+                    validSession.sendMessage(["lowMarkValueInUserChosenUnit" : String(UserDefaults.standard.lowMarkValueInUserChosenUnit)], replyHandler: nil, errorHandler: nil)
+                    
+                    validSession.sendMessage(["highMarkValueInUserChosenUnit" : String(UserDefaults.standard.highMarkValueInUserChosenUnit)], replyHandler: nil, errorHandler: nil)
+                    
+                    validSession.sendMessage(["urgentHighMarkValueInUserChosenUnit" : String(UserDefaults.standard.urgentHighMarkValueInUserChosenUnit)], replyHandler: nil, errorHandler: nil)
+                    
+                }
                 
             }
-            
             
         }
-    
+        
     }
     
 }
@@ -2744,6 +2740,8 @@ extension RootViewController:NightScoutFollowerDelegate {
                 
                 // send also to loopmanager, not interesting for loop probably, but the data is also used for today widget
                 self.loopManager?.share()
+                                
+                updateWatchApp()
                 
             }
         }
@@ -2786,9 +2784,9 @@ extension RootViewController: WCSessionDelegate {
             
             if let action = message["action"] as? String {
                 
-                if action == "refresh" {
+                if action == "refreshBGData" {
                     
-                    self.updateLabelsAndChart()
+                    self.updateWatchApp()
                     
                 }
             }

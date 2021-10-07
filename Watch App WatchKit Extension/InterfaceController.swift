@@ -12,34 +12,51 @@ import WatchConnectivity
 
 
 class InterfaceController: WKInterfaceController {
-
-    let session = WCSession.default
+    
+    private let session = WCSession.default
     
     @IBOutlet weak var minutesAgoLabelOutlet: WKInterfaceLabel!
     @IBOutlet weak var deltaLabelOutlet: WKInterfaceLabel!
     @IBOutlet weak var valueLabelOutlet: WKInterfaceLabel!
     
-    private var currentBGTimestamp: Date = Date()
+    @IBAction func longPressToRefresh(_ sender: Any) {
+        
+        valueLabelOutlet.setText("Refreshing...")
+        valueLabelOutlet.setText("Refreshing...")
+        valueLabelOutlet.setText("Refreshing...")
+        
+        requestFreshBGData()
+        
+    }
+    
     private var currentBGValue: Double = 0
     private var currentBGValueText: String = ""
-    private var deltaTextLocalized: String = ""
-    private var lastBGValue: Double = 0
-    private var lastBGTimestamp: Date = Date()
-    private var lastCommunicationTimestamp: Date = Date()
+    private var currentBGTimestamp: Date = Date()
     
-    private var markValuesSet: Bool = false
+    private var deltaTextLocalized: String = "---"
+    
+    private var minutesAgoTextLocalized: String = "---"
+    
     private var urgentLowMarkValueInUserChosenUnit: Double = 0
     private var lowMarkValueInUserChosenUnit: Double = 0
     private var highMarkValueInUserChosenUnit: Double = 0
     private var urgentHighMarkValueInUserChosenUnit: Double = 0
     
-    private var minutesAgoTextLocalized: String = "---"
+    
     
     @IBAction func tapSendToiPhone() {
         
-        let data: [String: Any] = ["action": "refresh" as Any]
+        minutesAgoLabelOutlet.setText("Refreshing...")
+        minutesAgoLabelOutlet.setTextColor(UIColor.lightGray)
         
-        session.sendMessage(data, replyHandler: nil, errorHandler: nil)
+        deltaLabelOutlet.setText("...")
+        deltaLabelOutlet.setTextColor(UIColor.lightGray)
+        
+        valueLabelOutlet.setText("...")
+        valueLabelOutlet.setTextColor(UIColor.lightGray)
+        
+        requestFreshBGData()
+        
     }
     
     
@@ -49,14 +66,14 @@ class InterfaceController: WKInterfaceController {
         session.delegate = self
         session.activate()
         
-        updateWatchView()
     }
     
     override func willActivate() {
         // This method is called when watch view controller is about to be visible to user
         super.willActivate()
         
-        //updateWatchView()
+        requestFreshBGData()
+        
     }
     
     override func didDeactivate() {
@@ -65,8 +82,8 @@ class InterfaceController: WKInterfaceController {
     }
     
     private func updateWatchView() {
-            
-        if urgentLowMarkValueInUserChosenUnit > 0 && lowMarkValueInUserChosenUnit > 0 && highMarkValueInUserChosenUnit > 0 && urgentHighMarkValueInUserChosenUnit > 0 && currentBGValue > 0 && currentBGValueText != "" && deltaTextLocalized != "" {
+        
+        if (urgentLowMarkValueInUserChosenUnit > 0 && lowMarkValueInUserChosenUnit > 0 && highMarkValueInUserChosenUnit > 0 && urgentHighMarkValueInUserChosenUnit > 0 && currentBGValue > 0 && currentBGValueText != "" && deltaTextLocalized != "") {
             
             let minutesAgo = -Int(currentBGTimestamp.timeIntervalSinceNow) / 60
             let minutesAgoText = minutesAgo.description + " " + minutesAgoTextLocalized
@@ -82,14 +99,14 @@ class InterfaceController: WKInterfaceController {
                 
                 minutesAgoLabelOutlet.setTextColor(UIColor.red)
                 deltaLabelOutlet.setTextColor(UIColor.darkGray)
-                valueLabelOutlet.setText("Waiting for BG data...")
-                valueLabelOutlet.setTextColor(UIColor.orange)
+                valueLabelOutlet.setText("Waiting for sensor data...")
+                valueLabelOutlet.setTextColor(UIColor.lightGray)
                 
             } else if minutesAgo > 11 {
-                                
-                minutesAgoLabelOutlet.setTextColor(UIColor.yellow)
-                deltaLabelOutlet.setTextColor(UIColor.lightGray)
-                valueLabelOutlet.setTextColor(UIColor.lightGray)
+                
+                minutesAgoLabelOutlet.setTextColor(UIColor.orange)
+                deltaLabelOutlet.setTextColor(UIColor.darkGray)
+                valueLabelOutlet.setTextColor(UIColor.darkGray)
                 
             } else if currentBGValue >= urgentHighMarkValueInUserChosenUnit || currentBGValue <= urgentLowMarkValueInUserChosenUnit {
                 
@@ -110,14 +127,14 @@ class InterfaceController: WKInterfaceController {
         }
     }
     
-    private func refreshData() {
+    private func requestFreshBGData() {
         
-        let data: [String: Any] = ["action": "refresh" as Any] //Create your dictionary as per uses
+        let data: [String: Any] = ["action": "refreshBGData" as Any] //Create your dictionary as per uses
         
         session.sendMessage(data, replyHandler: nil, errorHandler: nil)
         
     }
-
+    
 }
 
 extension InterfaceController: WCSessionDelegate {
@@ -133,7 +150,7 @@ extension InterfaceController: WCSessionDelegate {
             
             if let doubleValue = Double(data) {
                 
-                lastBGValue = currentBGValue
+                //previousBGValue = currentBGValue
                 
                 currentBGValue = doubleValue
                 
@@ -145,9 +162,11 @@ extension InterfaceController: WCSessionDelegate {
             
             if let date = ISO8601DateFormatter().date(from: data) {
                 
-                lastBGTimestamp = currentBGTimestamp
-                
-                currentBGTimestamp = date
+                if date != currentBGTimestamp {
+                    
+                    currentBGTimestamp = date
+                    
+                }
             }
             
         }
@@ -196,9 +215,8 @@ extension InterfaceController: WCSessionDelegate {
             
         }
         
-        lastCommunicationTimestamp = Date()
-        
         updateWatchView()
         
     }
+    
 }

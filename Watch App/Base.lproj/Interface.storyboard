@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="19162" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
-    <device id="watch44"/>
+    <device id="watch45"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="19044"/>
@@ -11,11 +11,18 @@
             <objects>
                 <controller id="AgC-eL-Hgc" customClass="InterfaceController" customModule="xDrip4iOS" customModuleProvider="target">
                     <items>
-                        <group width="1" alignment="left" layout="vertical" spacing="10" id="Wqm-hO-ln6">
+                        <group width="1" alignment="left" verticalAlignment="center" layout="vertical" spacing="10" id="Wqm-hO-ln6">
                             <items>
                                 <group width="1" alignment="left" id="QuI-vf-khn">
                                     <items>
                                         <imageView alignment="left" verticalAlignment="center" image="50" id="R1P-qv-01V">
+                                            <gestureRecognizers>
+                                                <longPressGestureRecognizer minimumPressDuration="2" id="WxN-fs-nqg">
+                                                    <connections>
+                                                        <action selector="longPressToRefresh:" destination="AgC-eL-Hgc" id="niG-1x-EcW"/>
+                                                    </connections>
+                                                </longPressGestureRecognizer>
+                                            </gestureRecognizers>
                                             <variation key="device=watch38mm" image="40"/>
                                         </imageView>
                                         <group alignment="right" layout="vertical" spacing="10" id="olC-KT-ibd">
@@ -49,13 +56,13 @@
                                 <separator alignment="center" id="Y5j-Vc-Vi6">
                                     <color key="color" white="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </separator>
-                                <label width="1" alignment="center" text="Waiting for BG data..." textAlignment="center" minimumScaleFactor="0.0" id="ies-y9-I8N">
-                                    <color key="textColor" red="1" green="0.57637232540000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <label width="1" alignment="center" text="Waiting for sensor data..." textAlignment="center" minimumScaleFactor="0.0" id="ies-y9-I8N">
+                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <fontDescription key="font" type="system" pointSize="70"/>
                                 </label>
-                                <group width="1" alignment="left" id="Pqy-f5-tCY">
+                                <group width="1" alignment="left" hidden="YES" id="Pqy-f5-tCY">
                                     <items>
-                                        <button width="1" alignment="left" hidden="YES" title="Refresh" id="K5h-qy-m32">
+                                        <button width="1" alignment="left" title="Refresh" id="K5h-qy-m32">
                                             <connections>
                                                 <action selector="tapSendToiPhone" destination="AgC-eL-Hgc" id="vxe-Zm-th3"/>
                                             </connections>
