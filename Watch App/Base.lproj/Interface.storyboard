@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="19162" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
-    <device id="watch45"/>
+    <device id="watch44"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="19044"/>
@@ -20,11 +20,12 @@
                                         </imageView>
                                         <group alignment="right" layout="vertical" spacing="10" id="olC-KT-ibd">
                                             <items>
-                                                <label alignment="right" text="- mins ago" id="oq4-iM-qEv">
-                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <label alignment="right" text="---" id="oq4-iM-qEv">
+                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <fontDescription key="font" style="UICTFontTextStyleBody"/>
                                                 </label>
                                                 <label alignment="right" text="---" id="RJK-M1-Bu5">
+                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <fontDescription key="font" style="UICTFontTextStyleHeadline"/>
                                                 </label>
                                             </items>
@@ -48,13 +49,13 @@
                                 <separator alignment="center" id="Y5j-Vc-Vi6">
                                     <color key="color" white="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </separator>
-                                <label width="1" alignment="center" text="---" textAlignment="center" minimumScaleFactor="0.0" id="ies-y9-I8N">
-                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <fontDescription key="font" type="boldSystem" pointSize="70"/>
+                                <label width="1" alignment="center" text="Waiting for BG data..." textAlignment="center" minimumScaleFactor="0.0" id="ies-y9-I8N">
+                                    <color key="textColor" red="1" green="0.57637232540000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <fontDescription key="font" type="system" pointSize="70"/>
                                 </label>
                                 <group width="1" alignment="left" id="Pqy-f5-tCY">
                                     <items>
-                                        <button width="1" alignment="left" title="Refresh" id="K5h-qy-m32">
+                                        <button width="1" alignment="left" hidden="YES" title="Refresh" id="K5h-qy-m32">
                                             <connections>
                                                 <action selector="tapSendToiPhone" destination="AgC-eL-Hgc" id="vxe-Zm-th3"/>
                                             </connections>
@@ -69,7 +70,7 @@
                     <connections>
                         <outlet property="deltaLabelOutlet" destination="RJK-M1-Bu5" id="l8b-2v-mUL"/>
                         <outlet property="minutesAgoLabelOutlet" destination="oq4-iM-qEv" id="gWX-Fo-FxU"/>
-                        <outlet property="valueLabelOutlet" destination="ies-y9-I8N" id="lMj-yT-Qv8"/>
+                        <outlet property="valueLabelOutlet" destination="ies-y9-I8N" id="Epb-zJ-poe"/>
                     </connections>
                 </controller>
             </objects>

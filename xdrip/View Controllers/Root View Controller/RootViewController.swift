@@ -1745,8 +1745,6 @@ final class RootViewController: UIViewController {
             
         }
         
-        updateWatchApp(value: calculatedValueAsString)
-        
         // to make follow code a bit more readable
         let mgdl = UserDefaults.standard.bloodGlucoseUnitIsMgDl
         
@@ -1757,28 +1755,20 @@ final class RootViewController: UIViewController {
             
             valueLabelOutlet.textColor = UIColor.lightGray
             
-            updateWatchApp(valueColor: "stale")
-            
         } else if lastReading.calculatedValue.bgValueRounded(mgdl: mgdl) >= UserDefaults.standard.urgentHighMarkValueInUserChosenUnit.mmolToMgdl(mgdl: mgdl).bgValueRounded(mgdl: mgdl) || lastReading.calculatedValue.bgValueRounded(mgdl: mgdl) <= UserDefaults.standard.urgentLowMarkValueInUserChosenUnit.mmolToMgdl(mgdl: mgdl).bgValueRounded(mgdl: mgdl) {
             
             // BG is higher than urgentHigh or lower than urgentLow objectives
             valueLabelOutlet.textColor = UIColor.red
-            
-            updateWatchApp(valueColor: "urgent")
             
         } else if lastReading.calculatedValue.bgValueRounded(mgdl: mgdl) >= UserDefaults.standard.highMarkValueInUserChosenUnit.mmolToMgdl(mgdl: mgdl).bgValueRounded(mgdl: mgdl) || lastReading.calculatedValue.bgValueRounded(mgdl: mgdl) <= UserDefaults.standard.lowMarkValueInUserChosenUnit.mmolToMgdl(mgdl: mgdl).bgValueRounded(mgdl: mgdl) {
             
             // BG is between urgentHigh/high and low/urgentLow objectives
             valueLabelOutlet.textColor = UIColor.yellow
             
-            updateWatchApp(valueColor: "notUrgent")
-            
         } else {
             
             // BG is between high and low objectives so considered "in range"
             valueLabelOutlet.textColor = UIColor.green
-            
-            updateWatchApp(valueColor: "inRange")
         }
         
         // get minutes ago and create text for minutes ago label
@@ -1787,15 +1777,21 @@ final class RootViewController: UIViewController {
         
         minutesLabelOutlet.text = minutesAgoText
         
-        updateWatchApp(minutesAgo: minutesAgoText)
-        
         // create delta text
-        diffLabelOutlet.text = lastReading.unitizedDeltaString(previousBgReading: lastButOneReading, showUnit: true, highGranularity: true, mgdl: UserDefaults.standard.bloodGlucoseUnitIsMgDl)
+        let diffLabelText = lastReading.unitizedDeltaString(previousBgReading: lastButOneReading, showUnit: true, highGranularity: true, mgdl: UserDefaults.standard.bloodGlucoseUnitIsMgDl)
         
-        updateWatchApp(delta: lastReading.unitizedDeltaString(previousBgReading: lastButOneReading, showUnit: true, highGranularity: true, mgdl: UserDefaults.standard.bloodGlucoseUnitIsMgDl))
+        diffLabelOutlet.text = diffLabelText
+        
+        updateWatchApp(deltaTextLocalized: diffLabelText)
         
         // update the chart up to now
         updateChartWithResetEndDate()
+        
+        let minutesAgoTextLabel = (minutesAgo == 1 ? Texts_Common.minute:Texts_Common.minutes) + " " + Texts_HomeView.ago
+                
+        updateWatchApp(currentBGValueText: calculatedValueAsString, currentBGValue: lastReading.unitizedString(unitIsMgDl: UserDefaults.standard.bloodGlucoseUnitIsMgDl), currentBGTimeStamp: ISO8601DateFormatter().string(from: lastReading.timeStamp), minutesAgoTextLocalized: minutesAgoTextLabel, deltaTextLocalized: diffLabelText)
+        
+        updateWatchApp(urgentLowMarkValueInUserChosenUnit: UserDefaults.standard.urgentLowMarkValueInUserChosenUnitRounded.description, lowMarkValueInUserChosenUnit: UserDefaults.standard.lowMarkValueInUserChosenUnitRounded.description, highMarkValueInUserChosenUnit: UserDefaults.standard.highMarkValueInUserChosenUnitRounded.description, urgentHighMarkValueInUserChosenUnit: UserDefaults.standard.urgentHighMarkValueInUserChosenUnitRounded.description)
         
     }
     
@@ -2447,41 +2443,72 @@ final class RootViewController: UIViewController {
         
     }
     
-    private func updateWatchApp(value: String? = nil, minutesAgo: String? = nil, delta: String? = nil, valueColor: String? = nil, timestamp: Date = Date()){
+    private func updateWatchApp(currentBGValueText: String? = nil, currentBGValue: String? = nil, currentBGTimeStamp: String? = nil, minutesAgoTextLocalized: String? = nil, deltaTextLocalized: String? = nil,  urgentLowMarkValueInUserChosenUnit: String? = nil,  lowMarkValueInUserChosenUnit: String? = nil, highMarkValueInUserChosenUnit: String? = nil,  urgentHighMarkValueInUserChosenUnit: String? = nil) {
         
         if let validSession = self.session, validSession.isReachable {
             
-            if value != nil {
+            if currentBGValueText != nil {
                 
-                let data: [String: Any] = ["value": value as Any] // Create your Dictionay as per uses
+                let data: [String: Any] = ["currentBGValueText": currentBGValueText as Any]
                 validSession.sendMessage(data, replyHandler: nil, errorHandler: nil)
                 
             }
             
-            if minutesAgo != nil {
+            if currentBGValue != nil {
                 
-                let data: [String: Any] = ["minutesAgo": minutesAgo as Any] // Create your Dictionay as per uses
+                let data: [String: Any] = ["currentBGValue": currentBGValue as Any]
                 validSession.sendMessage(data, replyHandler: nil, errorHandler: nil)
                 
             }
             
-            if delta != nil {
+            if currentBGTimeStamp != nil {
                 
-                let data: [String: Any] = ["delta": delta as Any] // Create your Dictionay as per uses
+                let data: [String: Any] = ["currentBGTimeStamp": currentBGTimeStamp as Any]
                 validSession.sendMessage(data, replyHandler: nil, errorHandler: nil)
                 
             }
             
-            if valueColor != nil {
+            if minutesAgoTextLocalized != nil {
                 
-                let data: [String: Any] = ["valueColor": valueColor as Any] // Create your Dictionay as per uses
+                let data: [String: Any] = ["minutesAgoTextLocalized": minutesAgoTextLocalized as Any]
                 validSession.sendMessage(data, replyHandler: nil, errorHandler: nil)
                 
             }
             
-            let data: [String: Any] = ["datestamp": timestamp as Any]
+            if deltaTextLocalized != nil {
+                
+                let data: [String: Any] = ["deltaTextLocalized": deltaTextLocalized as Any]
+                validSession.sendMessage(data, replyHandler: nil, errorHandler: nil)
+                
+            }
             
-            validSession.sendMessage(data, replyHandler: nil, errorHandler: nil)
+            if urgentLowMarkValueInUserChosenUnit != nil {
+                
+                let data: [String: Any] = ["urgentLowMarkValueInUserChosenUnit": urgentLowMarkValueInUserChosenUnit as Any]
+                validSession.sendMessage(data, replyHandler: nil, errorHandler: nil)
+                
+            }
+            
+            if lowMarkValueInUserChosenUnit != nil {
+                
+                let data: [String: Any] = ["lowMarkValueInUserChosenUnit": lowMarkValueInUserChosenUnit as Any]
+                validSession.sendMessage(data, replyHandler: nil, errorHandler: nil)
+                
+            }
+            
+            if highMarkValueInUserChosenUnit != nil {
+                
+                let data: [String: Any] = ["highMarkValueInUserChosenUnit": highMarkValueInUserChosenUnit as Any]
+                validSession.sendMessage(data, replyHandler: nil, errorHandler: nil)
+                
+            }
+            
+            if urgentHighMarkValueInUserChosenUnit != nil {
+                
+                let data: [String: Any] = ["urgentHighMarkValueInUserChosenUnit": urgentHighMarkValueInUserChosenUnit as Any]
+                validSession.sendMessage(data, replyHandler: nil, errorHandler: nil)
+                
+            }
             
             
         }
