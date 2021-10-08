@@ -1184,6 +1184,9 @@ final class RootViewController: UIViewController {
                 
             }
             
+            // also update Watch App with the new values. (Only really needed for unit change between mg/dl and mmol/l)
+            updateWatchApp()
+            
             // this will trigger update of app badge, will also create notification, but as app is most likely in foreground, this won't show up
             createBgReadingNotificationAndSetAppBadge(overrideShowReadingInNotification: true)
             
@@ -1191,6 +1194,9 @@ final class RootViewController: UIViewController {
             
             // redraw chart is necessary
             updateChartWithResetEndDate()
+            
+            // update Watch App with the new objective values
+            updateWatchApp()
 
         case UserDefaults.Key.daysToUseStatistics:
             
@@ -1230,16 +1236,6 @@ final class RootViewController: UIViewController {
     
     // MARK: - View Methods
     
-    
-    func configureWatchKitSession() {
-        
-        if WCSession.isSupported() {//4.1
-            session = WCSession.default//4.2
-            session?.delegate = self//4.3
-            session?.activate()//4.4
-        }
-    }
-    
     /// Configure View, only stuff that is independent of coredata
     private func setupView() {
         
@@ -1261,6 +1257,18 @@ final class RootViewController: UIViewController {
     }
     
     // MARK: - private helper functions
+    
+    /// configures the WKSession used for communication between the app and the watch app if available
+    private func configureWatchKitSession() {
+        
+        if WCSession.isSupported() {
+            
+            session = WCSession.default
+            session?.delegate = self
+            session?.activate()
+            
+        }
+    }
     
     /// creates notification
     private func createNotification(title: String?, body: String?, identifier: String, sound: UNNotificationSound?) {
@@ -2443,71 +2451,66 @@ final class RootViewController: UIViewController {
         
     }
     
-    
+    /// if there is an active WCSession open between the app and the watch app, then process the current data and send it via the messaging service to the watch app.
     private func updateWatchApp() {
         
+        // if there is no active WCSession open (i.e. if there is no paired Apple Watch with the watch app installed and running), then do nothing and just return
         if let validSession = self.session, validSession.isReachable {
             
-            if let validSession = self.session, validSession.isReachable {
+            let mgdl = UserDefaults.standard.bloodGlucoseUnitIsMgDl
+            
+            var timeStampLastBgReading = Date(timeIntervalSince1970: 0)
+            
+            var calculatedValueAsString = ""
+            
+            // make sure that the necessary objects are initialised and readings are available.
+            if let bgReadingsAccessor = bgReadingsAccessor, let lastReading = bgReadingsAccessor.last(forSensor: nil) {
                 
-                let mgdl = UserDefaults.standard.bloodGlucoseUnitIsMgDl
+                calculatedValueAsString = lastReading.unitizedString(unitIsMgDl: mgdl)
                 
-                // update the Watch app
-                var timeStampLastBgReading = Date(timeIntervalSince1970: 0)
-                
-                var calculatedValueAsString = ""
-                
-                if let bgReadingsAccessor = bgReadingsAccessor, let lastReading = bgReadingsAccessor.last(forSensor: nil) {
-                    
-                    timeStampLastBgReading = lastReading.timeStamp
-                    
-                    // start creating text for valueLabelOutlet, first the calculated value
-                    calculatedValueAsString = lastReading.unitizedString(unitIsMgDl: mgdl)
-                    
-                    if !lastReading.hideSlope {
-                        calculatedValueAsString = calculatedValueAsString + " " + lastReading.slopeArrow()
-                    }
-                    
-                    let minutesAgo = -Int(timeStampLastBgReading.timeIntervalSinceNow) / 60
-                    
-                    let minutesAgoTextLocalized = (minutesAgo == 1 ? Texts_Common.minute:Texts_Common.minutes) + " " + Texts_HomeView.ago
-                    
-                    let latestReadings = bgReadingsAccessor.get2LatestBgReadings(minimumTimeIntervalInMinutes: 4.0)
-                    
-                    // assign last reading
-                    let lastReading = latestReadings[0]
-                    
-                    // assign last but one reading
-                    let lastButOneReading = latestReadings.count > 1 ? latestReadings[1]:nil
-                    
-                    // create delta text
-                    let diffLabelText = lastReading.unitizedDeltaString(previousBgReading: lastButOneReading, showUnit: true, highGranularity: true, mgdl: mgdl)
-                    
-                    
-                    validSession.sendMessage(["currentBGValueText" : calculatedValueAsString], replyHandler: nil, errorHandler: nil)
-                    
-                    validSession.sendMessage(["currentBGValue" : String(lastReading.calculatedValue.bgValueRounded(mgdl: mgdl))], replyHandler: nil, errorHandler: nil)
-                    
-                    validSession.sendMessage(["currentBGTimeStamp" : ISO8601DateFormatter().string(from: lastReading.timeStamp)
-                                             ], replyHandler: nil, errorHandler: nil)
-                    
-                    validSession.sendMessage(["minutesAgoTextLocalized" : minutesAgoTextLocalized], replyHandler: nil, errorHandler: nil)
-                    
-                    validSession.sendMessage(["deltaTextLocalized" : diffLabelText], replyHandler: nil, errorHandler: nil)
-                    
-                    validSession.sendMessage(["urgentLowMarkValueInUserChosenUnit" : String(UserDefaults.standard.urgentLowMarkValueInUserChosenUnit)], replyHandler: nil, errorHandler: nil)
-                    
-                    validSession.sendMessage(["lowMarkValueInUserChosenUnit" : String(UserDefaults.standard.lowMarkValueInUserChosenUnit)], replyHandler: nil, errorHandler: nil)
-                    
-                    validSession.sendMessage(["highMarkValueInUserChosenUnit" : String(UserDefaults.standard.highMarkValueInUserChosenUnit)], replyHandler: nil, errorHandler: nil)
-                    
-                    validSession.sendMessage(["urgentHighMarkValueInUserChosenUnit" : String(UserDefaults.standard.urgentHighMarkValueInUserChosenUnit)], replyHandler: nil, errorHandler: nil)
-                    
+                if !lastReading.hideSlope {
+                    calculatedValueAsString = calculatedValueAsString + " " + lastReading.slopeArrow()
                 }
+                
+                let minutesAgo = -Int(lastReading.timeStamp.timeIntervalSinceNow) / 60
+                
+                let minutesAgoTextLocalized = (minutesAgo == 1 ? Texts_Common.minute:Texts_Common.minutes) + " " + Texts_HomeView.ago
+                
+                let latestReadings = bgReadingsAccessor.get2LatestBgReadings(minimumTimeIntervalInMinutes: 4.0)
+                
+                // assign last reading
+                let lastReading = latestReadings[0]
+                
+                // assign last but one reading
+                let lastButOneReading = latestReadings.count > 1 ? latestReadings[1]:nil
+                
+                // create delta text from the last two readings
+                let deltaText = lastReading.unitizedDeltaString(previousBgReading: lastButOneReading, showUnit: true, highGranularity: true, mgdl: mgdl)
+                
+                // create the WKSession messages in String format and send them. Although they are all sent almost immediately, they will be queued and sent in a background thread by the handler
+                validSession.sendMessage(["currentBGValueText" : calculatedValueAsString], replyHandler: nil, errorHandler: nil)
+                
+                validSession.sendMessage(["currentBGValue" : lastReading.unitizedString(unitIsMgDl: mgdl).description], replyHandler: nil, errorHandler: nil)
+                
+                validSession.sendMessage(["currentBGTimeStamp" : ISO8601DateFormatter().string(from: lastReading.timeStamp)
+                                         ], replyHandler: nil, errorHandler: nil)
+                
+                validSession.sendMessage(["minutesAgoTextLocalized" : minutesAgoTextLocalized], replyHandler: nil, errorHandler: nil)
+                
+                validSession.sendMessage(["deltaTextLocalized" : deltaText], replyHandler: nil, errorHandler: nil)
+                
+                validSession.sendMessage(["urgentLowMarkValueInUserChosenUnit" : UserDefaults.standard.urgentLowMarkValueInUserChosenUnit.bgValueRounded(mgdl: mgdl).description], replyHandler: nil, errorHandler: nil)
+                
+                validSession.sendMessage(["lowMarkValueInUserChosenUnit" : UserDefaults.standard.lowMarkValueInUserChosenUnit.bgValueRounded(mgdl: mgdl).description], replyHandler: nil, errorHandler: nil)
+                
+                validSession.sendMessage(["highMarkValueInUserChosenUnit" : UserDefaults.standard.highMarkValueInUserChosenUnit.bgValueRounded(mgdl: mgdl).description], replyHandler: nil, errorHandler: nil)
+                
+                validSession.sendMessage(["urgentHighMarkValueInUserChosenUnit" : UserDefaults.standard.urgentHighMarkValueInUserChosenUnit.bgValueRounded(mgdl: mgdl).description], replyHandler: nil, errorHandler: nil)
                 
             }
             
         }
+        
         
     }
     
@@ -2778,10 +2781,15 @@ extension RootViewController: WCSessionDelegate {
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
     }
     
+    // process any received messages from the watch app
     func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
-        print("received message: \(message)")
+        
+        // uncomment the following for debug console use
+        // print("received message from Watch App: \(message)")
+        
         DispatchQueue.main.async {
             
+            // if the action: refreshBGData message is received, then force the app to send new data to the Watch App
             if let action = message["action"] as? String {
                 
                 if action == "refreshBGData" {
