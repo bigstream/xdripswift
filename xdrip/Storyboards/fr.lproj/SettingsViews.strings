@@ -25,9 +25,6 @@
 "settingsviews_transmitterid_text_for_button" = "Transmetteur ID";
 "settingsviews_givetransmitterid" = "Entrer Transmetteur ID";
 "settingsviews_resettransmitter" = "Réinitialiser Transmetteur";
-"settingsviews_webooptransmitter" = "Utiliser l'algorithme Libre?";
-"settingsviews_labelWebOOP" = "Algorithme xDrip ou Libre";
-"transmitterId8OrHigherNotSupported" = "Transmetteur avec ID 8Gxxxx ou plus récent ne sont pas supportés !";
 "settingsviews_sectiontitlealerting" = "Alarme";
 "settingsviews_row_alert_types" = "Types d'alarme";
 "settingsviews_row_alerts" = "Alarmes";
@@ -86,7 +83,7 @@
 "failedToSendEmail" = "Echec d'envoi du Email";
 
 /// nightscout settings, port to use
-"nightScoutPort" = "Port (Optionnel):";
+"nightScoutPort" = "Port:";
 
 /// home screen settings, urgent high value
 "settingsviews_urgentHighValue" = "Urgent Valeur Haute";
@@ -151,3 +148,34 @@
 
 /// deloper settings, row title for NSLog - with NSLog enabled, a developer can view log information as explained here https://github.com/JohanDegraeve/xdripswift/wiki/NSLog
 "nslog" = "NSLog";
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+/////   Translation needed - remove this header after translation                       /////
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+/// general settings, should the online help be translated automatically if needed
+"settingsviews_translateOnlineHelp" = "Traduire automatiquement?";
+"settingsviews_showHelpIcon" = "Afficher l'icône d'aide?";
+"settingsviews_restartNeeded" = "(Redémarrage requis)";
+
+/// home screen settings, should the main glucose chart screen be allowed?
+"settingsviews_allowScreenRotation" = "Autoriser la rotation du graphique?";
+
+/// help settings, section title
+"settingsviews_sectiontitlehelp" = "Aide et documentation";
+
+/// Calendar Events Settings - section title
+"calendarEventsSectionTitle" = "Calendar Events";
+
+/// help settings, open the online help
+"settingsviews_showOnlineHelp" = "Ouvrir l'aide en ligne?";
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+/////   Translation needed - remove this header after translation                       /////
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+/// web oop settings in bluetooth peripheral view : enabled or not
+"settingsviews_webooptransmitter" = "Use Transmitter Algorithm?";
+
+/// weboop settings, title of the dialogs where user can select between xdrip or transmitter algorithm
+"settingsviews_labelWebOOP" = "xDrip or Transmitter Algorithm";

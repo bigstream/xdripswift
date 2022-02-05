@@ -22,11 +22,8 @@ enum BluetoothPeripheralType: String, CaseIterable {
     /// bubble
     case BubbleType = "Bubble / Bubble Mini"
     
-    /// DexcomG6
-    case DexcomG6Type = "Dexcom G6"
-    
-    /// DexcomG5
-    case DexcomG5Type = "Dexcom G5"
+    /// Dexcom
+    case DexcomType = "Dexcom"
     
     /// DexcomG4
     case DexcomG4Type = "Dexcom G4 (Bridge)"
@@ -63,7 +60,7 @@ enum BluetoothPeripheralType: String, CaseIterable {
         case .WatlaaType:
             return WatlaaBluetoothPeripheralViewModel()
             
-        case .DexcomG5Type:
+        case .DexcomType:
             return DexcomG5BluetoothPeripheralViewModel()
             
         case .BubbleType:
@@ -86,9 +83,6 @@ enum BluetoothPeripheralType: String, CaseIterable {
             
         case .DexcomG4Type:
             return DexcomG4BluetoothPeripheralViewModel()
-            
-        case .DexcomG6Type:
-            return DexcomG6BluetoothPeripheralViewModel()
             
         case .Libre2Type:
             return Libre2BluetoothPeripheralViewModel()
@@ -121,17 +115,9 @@ enum BluetoothPeripheralType: String, CaseIterable {
             
             return Watlaa(address: address, name: name, alias: nil, nsManagedObjectContext: nsManagedObjectContext)
             
-        case .DexcomG5Type:
+        case .DexcomType:
             
             return DexcomG5(address: address, name: name, alias: nil, nsManagedObjectContext: nsManagedObjectContext)
-            
-        case .DexcomG6Type:
-            
-            // DexcomG6 is a DexcomG5 with isDexcomG6 set to true
-            let dexcomG6 = DexcomG5(address: address, name: name, alias: nil, nsManagedObjectContext: nsManagedObjectContext)
-            dexcomG6.isDexcomG6 = true
-            
-            return dexcomG6
             
         case .BubbleType:
             
@@ -181,7 +167,7 @@ enum BluetoothPeripheralType: String, CaseIterable {
         case .M5StackType, .M5StickCType:
             return .M5Stack
             
-        case .DexcomG5Type, .BubbleType, .MiaoMiaoType, .BluconType, .GNSentryType, .BlueReaderType, .DropletType, .DexcomG4Type, .DexcomG6Type, .WatlaaType, .Libre2Type, .AtomType:
+        case .DexcomType, .BubbleType, .MiaoMiaoType, .BluconType, .GNSentryType, .BlueReaderType, .DropletType, .DexcomG4Type, .WatlaaType, .Libre2Type, .AtomType:
             return .CGM
             
         }
@@ -196,7 +182,7 @@ enum BluetoothPeripheralType: String, CaseIterable {
         case .M5StackType, .M5StickCType, .WatlaaType, .BubbleType, .MiaoMiaoType, .GNSentryType, .BlueReaderType, .DropletType, .Libre2Type, .AtomType:
             return false
             
-        case .DexcomG5Type, .BluconType, .DexcomG4Type, .DexcomG6Type:
+        case .DexcomType, .BluconType, .DexcomG4Type:
             return true
 
         }
@@ -209,7 +195,7 @@ enum BluetoothPeripheralType: String, CaseIterable {
         
         switch self {
             
-        case .DexcomG5Type, .DexcomG6Type:
+        case .DexcomType:
             
             // length for G5 and G6 is 6
             if transmitterId.count != 6 {
@@ -222,13 +208,6 @@ enum BluetoothPeripheralType: String, CaseIterable {
                 return Texts_ErrorMessages.DexcomTransmitterIDInvalidCharacters
             }
             
-            // reject transmitters with id in range 8G or higher. These are Firefly's
-            // convert to upper
-            let transmitterIdUpper = transmitterId.uppercased()
-            if transmitterIdUpper.compare("8G") == .orderedDescending {
-                return Texts_SettingsView.transmitterId8OrHigherNotSupported
-            }
-
             // validation successful
             return nil
             
@@ -268,10 +247,10 @@ enum BluetoothPeripheralType: String, CaseIterable {
         
         switch self {
             
-        case .M5StackType, .M5StickCType, .WatlaaType, .DexcomG4Type, .DexcomG5Type, .DexcomG6Type, .BluconType, .BlueReaderType, .DropletType , .GNSentryType:
+        case .M5StackType, .M5StickCType, .WatlaaType, .DexcomG4Type, .BluconType, .BlueReaderType, .DropletType , .GNSentryType:
             return false
             
-        case .BubbleType, .MiaoMiaoType, .AtomType:
+        case .BubbleType, .MiaoMiaoType, .AtomType, .DexcomType:
             return true
             
         case .Libre2Type:
@@ -287,7 +266,7 @@ enum BluetoothPeripheralType: String, CaseIterable {
        
        switch self {
            
-       case .M5StackType, .M5StickCType, .DexcomG4Type, .DexcomG5Type, .DexcomG6Type:
+       case .M5StackType, .M5StickCType, .DexcomG4Type, .DexcomType:
            return false
            
        case .BubbleType, .MiaoMiaoType, .WatlaaType, .BluconType, .BlueReaderType, .DropletType , .GNSentryType, .AtomType:

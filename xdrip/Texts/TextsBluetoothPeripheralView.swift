@@ -100,6 +100,14 @@ class Texts_BluetoothPeripheralView {
         return NSLocalizedString("lastReset", tableName: filename, bundle: Bundle.main, value: "Last Reset:", comment: "cell text, shows when last reset was done, if known. Only for Dexcom")
     }()
     
+    static let transmittterStartDate: String = {
+        return NSLocalizedString("transmittterStartDate", tableName: filename, bundle: Bundle.main, value: "Transmitter Start", comment: "cell text, transmitter start time")
+    }()
+    
+    static let sensorStartDate: String = {
+        return NSLocalizedString("sensorStartDate", tableName: filename, bundle: Bundle.main, value: "Sensor Start", comment: "cell text, sensor start time")
+    }()
+    
     static let lastResetTimeStampNotKnown: String = {
         return NSLocalizedString("lastResetNotKnown", tableName: filename, bundle: Bundle.main, value: "Last Reset Timestamp is not known", comment: "cell text, shows when last reset was done, if known. Only for Dexcom")
     }()
@@ -124,4 +132,7 @@ class Texts_BluetoothPeripheralView {
         return NSLocalizedString("confirmDisconnectMessage", tableName: filename, bundle: Bundle.main, value: "Click 'Disconnect' to confirm that you really want to disconnect from the transmitter.", comment: "Confirm that the user wants to really disconnect the transmitter, title")
     }()
     
+    static let useOtherDexcomApp: String = {
+        return NSLocalizedString("useOtherDexcomApp", tableName: filename, bundle: Bundle.main, value: "Follow Dexcom-app", comment: "Dexcom bluetooth screen. Is another app used in parallel or not")
+    }()
 }

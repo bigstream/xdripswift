@@ -5,6 +5,8 @@
 "settingsviews_master" = "Master";
 "settingsviews_follower" = "Seguidor";
 "settingsviews_translateOnlineHelp" = "Traducir Documentación?";
+"settingsviews_showHelpIcon" = "Mostrar icono?";
+"settingsviews_restartNeeded" = "(Pendiente reiniciar)";
 "settingsviews_showReadingInNotification" = "Mostrar en Notificaciones?";
 "settingsviews_labelShowReadingInAppBadge" = "Mostrar en el icono de la app?";
 "settingsviews_multipleAppBadgeValueWith10" = "Multiplicar valor por 10 en el icono de la app?";
@@ -32,11 +34,8 @@
 "settingsviews_transmitterid_text_for_button" = "ID del Transmisor";
 "settingsviews_givetransmitterid" = "ID del Transmisor";
 "settingsviews_resettransmitter" = "Resetear Transmisor";
-"settingsviews_webooptransmitter" = "Usar Algoritmo Libre?";
 "settingsviews_nonfixedtransmitter" = "Habilitar Calibración Multi-punto?";
 "settingsviews_labelNonFixed" = "Calibración Multi-punto";
-"settingsviews_labelWebOOP" = "Algoritmo xDrip o Libre";
-"transmitterId8OrHigherNotSupported" = "Los transmisores con ID 8Gxxxx o más nuevos no son compatibles de momento!";
 "settingsviews_sectiontitlealerting" = "Alarmas";
 "settingsviews_row_alert_types" = "Tipos de Alarmas";
 "settingsviews_row_alerts" = "Alarmas";
@@ -95,7 +94,7 @@
 "volumeTestiOSSound" = "Comprobar Volumen (volumen actual del iPhone)";
 "debugLevel" = "Incluir Datos Nivel Debug";
 "warningChangeFromMasterToFollower" = "Si cambias el modo de Master a Seguidor se parará la sesión del sensor actual. Quieres continuar?";
-"nightScoutPort" = "Puerto (opcional):";
+"nightScoutPort" = "Puerto:";
 "volumeTestSoundPlayerExplanation" = "Se está reproduciendo una alamra con el mismo volumen que usar un Tipo de Alarma con la opción de 'Ignorar Mode Silencio?' habilitado\n\nCambiar el volume con los botones del iPhone y apretar OK para confirmar";
 "settingsviews_nightScoutAPIKey" = "API_SECRET:";
 "settingsviews_nightScoutUrl" = "URL:";
@@ -106,3 +105,29 @@
 "nslog" = "NSLog";
 "developerSettings" = "Opciones de Desarrollo";
 "settingsviews_sectiontitlehomescreen" = "Inicio";
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+/////   Translation needed - remove this header after translation                       /////
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+/// home screen settings, should the main glucose chart screen be allowed?
+"settingsviews_allowScreenRotation" = "Allow Chart Rotation?";
+
+/// help settings, section title
+"settingsviews_sectiontitlehelp" = "Help & Documentation";
+
+/// Calendar Events Settings - section title
+"calendarEventsSectionTitle" = "Calendar Events";
+
+/// help settings, open the online help
+"settingsviews_showOnlineHelp" = "Open Online Help?";
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+/////   Translation needed - remove this header after translation                       /////
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+/// web oop settings in bluetooth peripheral view : enabled or not
+"settingsviews_webooptransmitter" = "Use Transmitter Algorithm?";
+
+/// weboop settings, title of the dialogs where user can select between xdrip or transmitter algorithm
+"settingsviews_labelWebOOP" = "xDrip or Transmitter Algorithm";

@@ -31,11 +31,8 @@
 "settingsviews_transmitterid_text_for_button"  = "Sändar-ID";
 "settingsviews_givetransmitterid" = "Ange sändar-ID";
 "settingsviews_resettransmitter" = "Återställ sändare";
-"settingsviews_webooptransmitter" = "Använd Libre-algoritm?";
 "settingsviews_nonfixedtransmitter" = "Använd flerpunktskalibrering?";
 "settingsviews_labelNonFixed" = "Flerpunktskalibrering";
-"settingsviews_labelWebOOP" = "xDrip- eller Libre-algoritm";
-"transmitterId8OrHigherNotSupported" = "Sändare med ID 8Gxxxx eller nyare stöds för tillfället inte";
 "settingsviews_sectiontitlealerting" = "Larm";
 "settingsviews_row_alert_types" = "Typ av larm";
 "settingsviews_row_alerts" = "Larm";
@@ -99,10 +96,41 @@
 "volumeTestiOSSound" = "Testa volym (nuvarande iPhone-volym)";
 "debugLevel" = "Inkludera felsökningsnivå";
 "warningChangeFromMasterToFollower" = "Byte från användare till följare kommer att stoppa nuvarande sensor. Vill du fortsätta?";
-"nightScoutPort" = "Port (inte obligatorisk):";
+"nightScoutPort" = "Port:";
 "developerSettings" = "Inställningar för utvecklare";
 "smoothLibreValues" = "Utjämna Libre-värden?";
 "nslog" = "NSLog";
 "oslog" = "OSLog";
 "settingsviews_sectiontitlehomescreen" = "Hemskärm";
  
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+/////   Translation needed - remove this header after translation                       /////
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+/// general settings, should the online help be translated automatically if needed
+"settingsviews_translateOnlineHelp" = "Translate Automatically?";
+"settingsviews_showHelpIcon" = "Visa hjälpikon?";
+"settingsviews_restartNeeded" = "(Omstart krävs)";
+
+/// home screen settings, should the main glucose chart screen be allowed?
+"settingsviews_allowScreenRotation" = "Allow Chart Rotation?";
+
+/// help settings, section title
+"settingsviews_sectiontitlehelp" = "Help & Documentation";
+
+/// Calendar Events Settings - section title
+"calendarEventsSectionTitle" = "Calendar Events";
+
+/// help settings, open the online help
+"settingsviews_showOnlineHelp" = "Open Online Help?";
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+/////   Translation needed - remove this header after translation                       /////
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+/// web oop settings in bluetooth peripheral view : enabled or not
+"settingsviews_webooptransmitter" = "Use Transmitter Algorithm?";
+
+/// weboop settings, title of the dialogs where user can select between xdrip or transmitter algorithm
+"settingsviews_labelWebOOP" = "xDrip or Transmitter Algorithm";

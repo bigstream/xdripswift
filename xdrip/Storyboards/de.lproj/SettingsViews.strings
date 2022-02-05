@@ -62,9 +62,6 @@
 /// name of setting for back ground color
 "m5stack_settingsviews_backGroundColor" = "Hintergrund Farbe";
 
-/// weboop settings, title of the dialogs where site and token are asked - also used when viewing bluetoothperipheral settings, the title of the section
-"settingsviews_labelWebOOP" = "xDrip oder Libre Algorithmus";
-
 /// nightscout settings, section title
 "settingsviews_sectiontitlenightscout" = "NightScout";
 
@@ -129,7 +126,7 @@
 "schedule" = "Upload Plan:";
 
 /// nightscout settings, port to use
-"nightScoutPort" = "Port (Optional):";
+"nightScoutPort" = "Port:";
 
 /// When clicking the interval setting, a pop up asks for minimum number of minutes between two readings, this is the pop up message - this is used for setting the interval between two readings in BG notifications, Speak readings, Apple Watch
 "settingsviews_IntervalTitle" = "Intervall:";
@@ -157,9 +154,6 @@
 
 /// dexcom share settings, pop up that asks user to enter dexcom share password
 "settingsviews_giveDexcomSharePassword" = "Eingabe Dexcom Share Passwort";
-
-/// web oop settings in bluetooth peripheral view : enabled or not
-"settingsviews_webooptransmitter" = "Libre Algorithmus benutzen?";
 
 /// When creating schedule for Nightscout or Dexcom Share upload, this is the top label text
 "timeScheduleViewTitle" = "An/Aus für geplanten upload ";
@@ -202,9 +196,6 @@
 
 /// speak settings, where user can enable or disable speak delta
 "settingsviews_speakDelta" = "Delta vorlesen?";
-
-/// User sets a transmitter id with id 8G or higher. This is not supported
-"transmitterId8OrHigherNotSupported" = "Transmitter mit der ID 8Gxxxx oder neuer werden zur Zeit nicht unterstützt!";
 
 /// M5 stack setting, brightness
 "m5stack_settingsviews_brightness" = "Bildschirmhelligkeit";
@@ -303,3 +294,35 @@
 "settingsviews_sectiontitlesensorcountdown" = "Zeit bis Sensorende";
 "settingsviews_showSensorCountdown" = "Zeit bis Sensorende anzeigen?";
 "settingsviews_showSensorCountdownAlternativeGraphics" = "Alternative Symbole verwenden?";
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+/////   Translation needed - remove this header after translation                       /////
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+/// general settings, should the online help be translated automatically if needed
+"settingsviews_translateOnlineHelp" = "Translate Automatically?";
+
+/// home screen settings, should the main glucose chart screen be allowed?
+"settingsviews_allowScreenRotation" = "Allow Chart Rotation?";
+
+/// help settings, section title
+"settingsviews_sectiontitlehelp" = "Help & Documentation";
+
+/// Calendar Events Settings - section title
+"calendarEventsSectionTitle" = "Calendar Events";
+
+/// help settings, open the online help
+"settingsviews_showOnlineHelp" = "Open Online Help?";
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+/////   Translation needed - remove this header after translation                       /////
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+/// web oop settings in bluetooth peripheral view : enabled or not
+"settingsviews_webooptransmitter" = "Use Transmitter Algorithm?";
+
+/// weboop settings, title of the dialogs where user can select between xdrip or transmitter algorithm
+"settingsviews_labelWebOOP" = "xDrip or Transmitter Algorithm";
+
+"settingsviews_showHelpIcon" = "Hilfe-Symbol anzeigen?";
+"settingsviews_restartNeeded" = "(Neustart notwendig)";

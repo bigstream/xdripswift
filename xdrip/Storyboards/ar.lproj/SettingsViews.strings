@@ -27,11 +27,8 @@
 "settingsviews_transmitterid_text_for_button" = "رقم هوية جهاز الإرسال";
 "settingsviews_givetransmitterid" = "أدخل رقم هوية جهاز الإرسال";
 "settingsviews_resettransmitter" = "إعادة تعيين جهاز الإرسال";
-"settingsviews_webooptransmitter" = "استخدم خوارزمية ليبري?";
 "settingsviews_nonfixedtransmitter" = "تفعيل المعايرة متعددة النقاط ?";
 "settingsviews_labelNonFixed" = "المعايرة متعددة النقاط";
-"settingsviews_labelWebOOP" = "خوارزمية xDrip أو Libre";
-"transmitterId8OrHigherNotSupported" = "جهاز الإرسال برمز الهوية 8Gxxxx أو الأحدث غير مدعوم!";
 "settingsviews_sectiontitlealerting" = "التنبيهات";
 "settingsviews_row_alert_types" = "أنواع التنبيهات";
 "settingsviews_row_alerts" = "التنبيهات";
@@ -102,3 +99,23 @@
 "oslog" = "OSتقرير";
 "settingsviews_sectiontitlehomescreen" = "الشاشة الرئيسية";
 "settingsviews_showClockWhenScreenIsLocked" = "عرض الساعة عند القفل؟";
+"settingsviews_translateOnlineHelp" = "هل تريد الترجمة تلقائيًا؟";
+"settingsviews_showSensorCountdownAlternativeGraphics" = "استخدام الرسومات البديلة؟";
+"settingsviews_allowScreenRotation" = "السماح بإلتفاف المخطط؟";
+"settingsviews_sectiontitlesensorcountdown" = "العد التنازلي للحساس";
+"settingsviews_sectiontitlehelp" = "المساعدة والتوثيق";
+"calendarEventsSectionTitle" = "أحداث التقويم";
+"settingsviews_showOnlineHelp" = "فتح المساعدة عبر الإنترنت؟";
+"settingsviews_showSensorCountdown" = "إظهار العد التنازلي للحساس؟";
+"settingsviews_webooptransmitter" = "استخدام خوارزمية جهاز الإرسال؟";
+"settingsviews_labelWebOOP" = "خوارزمية xDrip أو جهاز الإرسال";
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+/////   Translation needed - remove this header after translation                       /////
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+/// help settings, should the help icon be shown on the toolbar
+"settingsviews_showHelpIcon" = "Show Help Icon?";
+
+/// help settings, restart needed
+"settingsviews_restartNeeded" = "(Restart required)";

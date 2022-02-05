@@ -46,7 +46,7 @@
 "volumeTestiOSSound" = "Test Volume (Current iPhone Volume)";
 
 /// nightscout settings, port to use
-"nightScoutPort" = "Port (optional):";
+"nightScoutPort" = "Port:";
 
 /// home screen settings, urgent high value
 "settingsviews_urgentHighValue" = "Urgent High Value:";
@@ -56,9 +56,6 @@
 
 /// non fixed calibration slopes settings in bluetooth peripheral view : enabled or not
 "settingsviews_nonfixedtransmitter" = "Enable Multi-point Calibration?";
-
-/// web oop settings in bluetooth peripheral view : enabled or not
-"settingsviews_webooptransmitter" = "Use Libre Algorithm?";
 
 /// Apple Watch Settings - text in row where user needs to say if unit should be displayed or not
 "displayUnitInCalendarEvent" = "Display Unit?";
@@ -89,9 +86,6 @@
 
 /// 
 "settingsviews_urgentLowValue" = "Urgent Low Value:";
-
-/// weboop settings, title of the dialogs where site and token are asked - also used when viewing bluetoothperipheral settings, the title of the section
-"settingsviews_labelWebOOP" = "xDrip or Libre Algorithm";
 
 /// nightscout or dexcom share settings, where user can select to edit the schedule
 "schedule" = "Schedule:";
@@ -204,9 +198,6 @@
 /// 
 "settingsviews_showcoloredobjectives" = "Show Colored Lines?";
 
-/// User sets a transmitter id with id 8G or higher. This is not supported
-"transmitterId8OrHigherNotSupported" = "Transmitters with ID 8Gxxxx or newer are not currently supported!";
-
 /////////////////////////////////////////////////////////////////////////////////////////////
 /////   Translation needed - remove this header after translation                       /////
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -258,3 +249,51 @@
 
 /// general settings, should the clock also be displayed when the screen is locked?
 "settingsviews_showClockWhenScreenIsLocked" = "Show Clock when Locked?";
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+/////   Translation needed - remove this header after translation                       /////
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+/// general settings, should the online help be translated automatically if needed
+"settingsviews_translateOnlineHelp" = "Translate Automatically?";
+
+/// sensor countdown settings, use alternative sensor countdown graphics on home screen
+"settingsviews_showSensorCountdownAlternativeGraphics" = "Use Alternative Graphics?";
+
+/// home screen settings, should the main glucose chart screen be allowed?
+"settingsviews_allowScreenRotation" = "Allow Chart Rotation?";
+
+/// sensor countdown settings, section title
+"settingsviews_sectiontitlesensorcountdown" = "Sensor Countdown";
+
+/// help settings, section title
+"settingsviews_sectiontitlehelp" = "Help & Documentation";
+
+/// Calendar Events Settings - section title
+"calendarEventsSectionTitle" = "Calendar Events";
+
+/// help settings, open the online help
+"settingsviews_showOnlineHelp" = "Open Online Help?";
+
+/// sensor countdown settings, show sensor countdown graphic on home screen
+"settingsviews_showSensorCountdown" = "Show Sensor Countdown?";
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+/////   Translation needed - remove this header after translation                       /////
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+/// web oop settings in bluetooth peripheral view : enabled or not
+"settingsviews_webooptransmitter" = "Use Transmitter Algorithm?";
+
+/// weboop settings, title of the dialogs where user can select between xdrip or transmitter algorithm
+"settingsviews_labelWebOOP" = "xDrip or Transmitter Algorithm";
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+/////   Translation needed - remove this header after translation                       /////
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+/// help settings, should the help icon be shown on the toolbar
+"settingsviews_showHelpIcon" = "Show Help Icon?";
+
+/// help settings, restart needed
+"settingsviews_restartNeeded" = "(Restart required)";

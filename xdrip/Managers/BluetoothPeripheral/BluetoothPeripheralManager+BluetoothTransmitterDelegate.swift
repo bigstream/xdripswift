@@ -65,8 +65,8 @@ extension BluetoothPeripheralManager: BluetoothTransmitterDelegate {
         // add closure to ApplicationManager.shared.addClosureToRunWhenAppWillEnterForeground so that if user opens the app, the pairing request will be initiated. This can be done only if the app is opened within 60 seconds.
         // If the app is already in the foreground, then userNotificationCenter willPresent will be called, in this function the closure will be removed immediately, and the pairing request will be called. As a result, if the app is in the foreground, the user will not see (or hear) any notification, but the pairing will be initiated
         
-        // max timestamp when notification was fired - connection stays open for 1 minute, taking 1 second as d
-        let maxTimeUserCanOpenApp = Date(timeIntervalSinceNow: TimeInterval(Double(ConstantsDexcomG5.maxTimeToAcceptPairingInSeconds) - 1.0))
+        // max timestamp when notification was fired - connection stays open for 1 minute, taking 1 second as margin
+        let maxTimeUserCanOpenApp = Date(timeIntervalSinceNow: TimeInterval(Double(ConstantsDexcomG5.maxTimeToAcceptPairing) - 1.0))
         
         // we will not just count on it that the user will click the notification to open the app (assuming the app is in the background, if the app is in the foreground, then we come in another flow)
         // whenever app comes from-back to foreground, updateLabelsAndChart needs to be called
@@ -224,9 +224,21 @@ extension BluetoothPeripheralManager: BluetoothTransmitterDelegate {
 
         // bluetoothTransmitter has initially been created with webOOPEnabled = false (possibily it's not even a CGM transmitter
         // if it's a CGM transmitter being created here, then we need to reassign webOOPEnabled to the value in the blePeripheral
+        // possibly webOOPEnabled is false, because user sees the option to enable/disable weboop if the transmitter is not connected. So user might have disabled weboop. So as soon as connected, check if nonweboop is allowed
+        //  if not, then set weboopenabled to true
         if let bluetoothTransmitterAsCGM = bluetoothTransmitter as? CGMTransmitter {
             
-            bluetoothTransmitterAsCGM.setWebOOPEnabled(enabled: newBluetoothPeripheral.blePeripheral.webOOPEnabled)
+            if !bluetoothTransmitterAsCGM.nonWebOOPAllowed() {
+                
+                newBluetoothPeripheral.blePeripheral.webOOPEnabled = true
+                
+                bluetoothTransmitterAsCGM.setWebOOPEnabled(enabled: true)
+                
+            } else {
+
+                bluetoothTransmitterAsCGM.setWebOOPEnabled(enabled: newBluetoothPeripheral.blePeripheral.webOOPEnabled)
+
+            }
             
         }
         
@@ -245,12 +257,10 @@ extension BluetoothPeripheralManager: BluetoothTransmitterDelegate {
         checkCurrentCGMTransmitterHelper()
         
         // set lastConnectionStatusChangeTimeStamp in blePeripheral to now
-        if let bluetoothPeripheral = getBluetoothPeripheral(for: bluetoothTransmitter) {
-            bluetoothPeripheral.blePeripheral.lastConnectionStatusChangeTimeStamp = Date()
-        }
+        newBluetoothPeripheral.blePeripheral.lastConnectionStatusChangeTimeStamp = Date()
         
-        // assign tempBlueToothTransmitterWhileScanningForNewBluetoothPeripheral to nil here
-        self.tempBlueToothTransmitterWhileScanningForNewBluetoothPeripheral = nil
+        // call sendSettings function
+        newBluetoothPeripheral.sendSettings(to: bluetoothTransmitter)
         
     }
     

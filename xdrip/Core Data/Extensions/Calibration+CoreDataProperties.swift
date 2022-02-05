@@ -24,6 +24,12 @@ extension Calibration {
     @NSManaged public var deviceName: String?
     @NSManaged public var bgreadings: NSSet
     @NSManaged public var sensor: Sensor
+    
+    // only used for firefly transmitters, for now
+    @NSManaged public var sentToTransmitter: Bool
+    
+    // only used for firefly transmitters, for now
+    @NSManaged public var acceptedByTransmitter: Bool
 
 }
 

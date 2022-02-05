@@ -21,7 +21,15 @@ class Texts_SettingsView {
     }()
     
     static let translateOnlineHelp: String = {
-        return NSLocalizedString("settingsviews_translateOnlineHelp", tableName: filename, bundle: Bundle.main, value: "Translate Automatically?", comment: "general settings, should the online help be translated automatically if needed")
+        return NSLocalizedString("settingsviews_translateOnlineHelp", tableName: filename, bundle: Bundle.main, value: "Translate Automatically?", comment: "help settings, should the online help be translated automatically if needed")
+    }()
+    
+    static let showHelpIcon: String = {
+        return NSLocalizedString("settingsviews_showHelpIcon", tableName: filename, bundle: Bundle.main, value: "Show Help Icon?", comment: "help settings, should the help icon be shown on the toolbar")
+    }()
+    
+    static let restartNeeded: String = {
+        return NSLocalizedString("settingsviews_restartNeeded", tableName: filename, bundle: Bundle.main, value: "(Restart required)", comment: "help settings, restart needed")
     }()
     
     // MARK: - Section General
@@ -172,11 +180,11 @@ class Texts_SettingsView {
     }()
     
     static let labelWebOOPTransmitter:String = {
-        return NSLocalizedString("settingsviews_webooptransmitter", tableName: filename, bundle: Bundle.main, value: "Use Libre Algorithm?", comment: "web oop settings in bluetooth peripheral view : enabled or not")
+        return NSLocalizedString("settingsviews_webooptransmitter", tableName: filename, bundle: Bundle.main, value: "Use Transmitter Algorithm?", comment: "web oop settings in bluetooth peripheral view : enabled or not")
     }()
     
     static let labelWebOOP:String = {
-        return NSLocalizedString("settingsviews_labelWebOOP", tableName: filename, bundle: Bundle.main, value: "xDrip or Libre Algorithm", comment: "weboop settings, title of the dialogs where site and token are asked - also used when viewing bluetoothperipheral settings, the title of the section")
+        return NSLocalizedString("settingsviews_labelWebOOP", tableName: filename, bundle: Bundle.main, value: "xDrip or Transmitter Algorithm", comment: "weboop settings, title of the dialogs where user can select between xdrip or transmitter algorithm")
     }()
     
     static let labelNonFixedTransmitter:String = {
@@ -185,10 +193,6 @@ class Texts_SettingsView {
     
     static let labelNonFixed:String = {
         return NSLocalizedString("settingsviews_labelNonFixed", tableName: filename, bundle: Bundle.main, value: "Multi-point Calibration", comment: "non fixed settings, title of the section")
-    }()
-    
-    static let transmitterId8OrHigherNotSupported: String = {
-        return NSLocalizedString("transmitterId8OrHigherNotSupported", tableName: filename, bundle: Bundle.main, value: "Transmitters with ID 8Gxxxx or newer are not currently supported!", comment: "User sets a transmitter id with id 8G or higher. This is not supported")
     }()
     
     // MARK: - Section Alerts
@@ -300,7 +304,11 @@ class Texts_SettingsView {
     }()
 
     static let nightScoutPort: String = {
-        return NSLocalizedString("nightScoutPort", tableName: filename, bundle: Bundle.main, value: "Port (optional):", comment: "nightscout settings, port to use")
+        return NSLocalizedString("nightScoutPort", tableName: filename, bundle: Bundle.main, value: "Port:", comment: "nightscout settings, port to use")
+    }()
+    
+    static let nightscoutToken: String = {
+        return NSLocalizedString("nightscoutToken", tableName: filename, bundle: Bundle.main, value: "Token:", comment: "nightscout settings, token to use")
     }()
 
     // MARK: - Section Speak
