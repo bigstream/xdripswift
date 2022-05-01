@@ -6,13 +6,16 @@
 "trenddoubledown" = "aşırı ölçüde aşağı";
 /// hızlı düşüyor
 "trendsingledown" = "önemli ölçüde aşağı";
-"trendfortyfivedown" = "aşağı";
-"trendflat" = "düz";
-"trendfortyfiveup" = "yukarı";
-/// hızlı yükseliyor
-"trendsingleup" = "önemli ölçüde yukarı";
-/// çok hızlı yükseliyor
-"trenddoubleup" = "aşırı ölçüde yukarı";
+/// aşağı
+"trendfortyfivedown" = "azalmakta";
+/// düz
+"trendflat" = "sabit";
+/// yukarı
+"trendfortyfiveup" = "artmakta";
+/// önemli ölçüde yukarı
+"trendsingleup" = "hızlı yükseliyor";
+/// aşırı ölçüde yukarı
+"trenddoubleup" = "çok hızlı yükseliyor";
 "currenttrend" = "Doğru bir eğilim gösteriyor.";
 "deltanoncomputable" = "belirlenemez";
 "currentdelta" = "Son değere göre farkı";
