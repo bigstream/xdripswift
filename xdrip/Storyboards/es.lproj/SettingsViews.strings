@@ -21,8 +21,10 @@
 "settingsviews_showtarget" = "Mostrar Línea Target?";
 "settingsviews_sectiontitletreatments" = "Tratamientos";
 "settingsviews_showTreatmentsOnChart" = "Mostrar Tratamientos?";
-"settingsviews_smallBolusTreatmentThreshold" = "Límite micro-bolo:";
+"settingsviews_smallBolusTreatmentThreshold" = "Límite Micro-bolo:";
 "settingsviews_smallBolusTreatmentThresholdMessage" = "Por debajo de cuántas unidades debemos considerar un bolo como micro-bolo?\n\n(Valor recomendado: 1.0U)";
+"settingsviews_showSmallBolusTreatmentsOnChart" = "Mostrar Micro-bolos en Gráfica?";
+"settingsviews_showSmallBolusTreatmentsInList" = "Mostrar Micro-bolos en Listado?";
 "settingsviews_sectiontitlestatistics" = "Estadísticas";
 "settingsviews_showStatistics" = "Mostrar Estadísticas?";
 "settingsviews_daysToUseStatisticsTitle" = "Días a Calcular?";
@@ -135,3 +137,8 @@
 
 /// weboop settings, title of the dialogs where user can select between xdrip or transmitter algorithm
 "settingsviews_labelWebOOP" = "xDrip or Transmitter Algorithm";
+
+"settingsviews_sectionTitleHousekeeper" = "Gestión de Datos";
+"settingsviews_housekeeperRetentionPeriod" = "Periodo de Retención (días):";
+"settingsviews_housekeeperExportAllData" = "Exportar Todo";
+"settingsviews_housekeeperRetentionPeriodMessage" = "¿Durante cuántos días debemos guardar los datos? (Min 90, Max 365)\n\n(Recomendado: 90 días)";

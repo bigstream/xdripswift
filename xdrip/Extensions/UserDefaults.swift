@@ -70,6 +70,12 @@ extension UserDefaults {
         /// micro-bolus threshold level in units
         case smallBolusTreatmentThreshold = "smallBolusTreatmentThreshold"
         
+        /// should the micro-boluses be shown on the main chart?
+        case showSmallBolusTreatmentsOnChart = "showSmallBolusTreatmentsOnChart"
+        
+        /// should the micro-boluses be listed in the treatment list/table?
+        case showSmallBolusTreatmentsInList = "showSmallBolusTreatmentsInList"
+        
         // Statistics settings
         
         /// show the statistics? How many days should we use for the calculations?
@@ -80,6 +86,11 @@ extension UserDefaults {
         case useIFCCA1C = "useIFCCA1C"
         /// use the "standard" range of 70-180mg/dl to calculate the statistics?
         case useStandardStatisticsRange = "useStandardStatisticsRange"
+
+        // Housekeeper settings
+
+        /// For how many days should we keep Readings, Treatments and Calibrations?
+        case retentionPeriodInDays = "retentionPeriodInDays"
         
         // Sensor Countdown settings
         
@@ -288,6 +299,11 @@ extension UserDefaults {
         /// case smooth libre values
         case smoothLibreValues = "smoothLibreValues"
         
+        /// to create artificial delay in readings stored in sharedUserDefaults for loop. Minutes - so that Loop receives more smoothed values.
+        ///
+        /// Default value 0, if used then recommende value between 4 and 9
+        case loopDelay = "loopDelay"
+        
         /// used for Libre data parsing - only for Libre 1 or Libre 2 read via transmitter, ie full NFC block
         case previousRawLibreValues = "previousRawLibreValues"
         
@@ -394,6 +410,18 @@ extension UserDefaults {
         }
         set {
             set(newValue, forKey: Key.notificationInterval.rawValue)
+        }
+    }
+    
+    /// to create artificial delay in readings stored in sharedUserDefaults for loop. Minutes - so that Loop receives more smoothed values.
+    ///
+    /// Default value 0, if used then recommende value between 4 and 9
+    @objc dynamic var loopDelay: Int {
+        get {
+            return integer(forKey: Key.loopDelay.rawValue)
+        }
+        set {
+            set(newValue, forKey: Key.loopDelay.rawValue)
         }
     }
 
@@ -751,6 +779,28 @@ extension UserDefaults {
         }
     }
     
+    /// should the app show the micro-bolus treatments on the main chart?
+    @objc dynamic var showSmallBolusTreatmentsOnChart: Bool {
+        // default value for bool in userdefaults is false, by default we want the app to *show* the micro-bolus treatments on the chart
+        get {
+            return !bool(forKey: Key.showSmallBolusTreatmentsOnChart.rawValue)
+        }
+        set {
+            set(!newValue, forKey: Key.showSmallBolusTreatmentsOnChart.rawValue)
+        }
+    }
+    
+    /// should the app show the micro-bolus treatments in the treatments list/table?
+    @objc dynamic var showSmallBolusTreatmentsInList: Bool {
+        // default value for bool in userdefaults is false, by default we want the app to *hide* the micro-bolus treatments in the treatments table
+        get {
+            return bool(forKey: Key.showSmallBolusTreatmentsInList.rawValue)
+        }
+        set {
+            set(newValue, forKey: Key.showSmallBolusTreatmentsInList.rawValue)
+        }
+    }
+    
     
     // MARK: Statistics Settings
     
@@ -823,6 +873,28 @@ extension UserDefaults {
         }
     }
     
+
+    // MARK: Housekeeper Settings
+
+    /// For how many days should data be stored. Should always be <= maximumRetentionPeriodInDays and >= minimumRetentionPeriodInDays.
+    @objc dynamic var retentionPeriodInDays: Int {
+        get {
+            var returnValue = integer(forKey: Key.retentionPeriodInDays.rawValue)
+            // if 0 set to defaultvalue
+            if returnValue == 0 {
+                returnValue = ConstantsHousekeeping.minimumRetentionPeriodInDays
+            }
+
+            return returnValue
+        }
+        set {
+            // Constrains the newValue to be <= than maximumRetentionPeriodInDays and >= than minimumRetentionPeriodInDays.
+            var value = min(newValue, ConstantsHousekeeping.maximumRetentionPeriodInDays)
+            value = max(value, ConstantsHousekeeping.minimumRetentionPeriodInDays)
+
+            set(value, forKey: Key.retentionPeriodInDays.rawValue)
+        }
+    }
     
     // MARK: Transmitter Settings
     
