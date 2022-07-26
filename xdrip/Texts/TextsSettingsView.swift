@@ -123,11 +123,19 @@ class Texts_SettingsView {
     }()
     
     static let settingsviews_smallBolusTreatmentThreshold = {
-        return NSLocalizedString("settingsviews_smallBolusTreatmentThreshold", tableName: filename, bundle: Bundle.main, value: "Micro-Bolus Threshold:", comment: "When clicking the threshold setting, a pop up asks for the number of units under which a bolus should be considered a micro-bolus")
+        return NSLocalizedString("settingsviews_smallBolusTreatmentThreshold", tableName: filename, bundle: Bundle.main, value: "Micro-bolus Threshold:", comment: "When clicking the threshold setting, a pop up asks for the number of units under which a bolus should be considered a micro-bolus")
     }()
     
     static let settingsviews_smallBolusTreatmentThresholdMessage = {
         return NSLocalizedString("settingsviews_smallBolusTreatmentThresholdMessage", tableName: filename, bundle: Bundle.main, value: "Below how many units should we consider a bolus as a micro-bolus?\n\n(Recommended value: 1.0U)", comment: "When clicking the threshold setting, a pop up asks for the number of units under which a bolus should be considered a micro-bolus")
+    }()
+    
+    static let settingsviews_showSmallBolusTreatmentsOnChart: String = {
+        return NSLocalizedString("settingsviews_showSmallBolusTreatmentsOnChart", tableName: filename, bundle: Bundle.main, value: "Show Micro-bolus on Chart?", comment: "treatments settings, show the micro-bolus on main chart")
+    }()
+    
+    static let settingsviews_showSmallBolusTreatmentsInList: String = {
+        return NSLocalizedString("settingsviews_showSmallBolusTreatmentsInList", tableName: filename, bundle: Bundle.main, value: "Show Micro-bolus in List?", comment: "treatments settings, show the micro-bolus in the treatment list")
     }()
     
     // MARK: - Section Statistics
@@ -513,6 +521,24 @@ class Texts_SettingsView {
     
     static let osLog: String = {
         return NSLocalizedString("oslog", tableName: filename, bundle: Bundle.main, value: "OSLog", comment: "deloper settings, row title for OSLog - with OSLog enabled, a developer can view log information as explained here https://developer.apple.com/documentation/os/oslog")
+    }()
+    
+    // MARK: - Section Housekeeper
+
+    static let sectionTitleHousekeeper: String = {
+        return NSLocalizedString("settingsviews_sectionTitleHousekeeper", tableName: filename, bundle: Bundle.main, value: "Data Management", comment: "Housekeeper settings, section title")
+    }()
+
+    static let settingsviews_housekeeperRetentionPeriod: String = {
+        return NSLocalizedString("settingsviews_housekeeperRetentionPeriod", tableName: filename, bundle: Bundle.main, value: "Retention Period (days):", comment: "Housekeeper retention period, for how long to store data")
+    }()
+
+    static let settingsviews_housekeeperExportAllData: String = {
+        return NSLocalizedString("settingsviews_housekeeperExportAllData", tableName: filename, bundle: Bundle.main, value: "Export All Data", comment: "Button to export all data")
+    }()
+    
+    static let settingsviews_housekeeperRetentionPeriodMessage = {
+        return NSLocalizedString("settingsviews_housekeeperRetentionPeriodMessage", tableName: filename, bundle: Bundle.main, value: "For how many days should data be stored? (Min 90, Max 365)\n\n(Recommended: 90 days)", comment: "When clicking the retention setting, a pop up asks for how many days should data be stored")
     }()
     
 }
