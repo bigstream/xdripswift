@@ -247,6 +247,10 @@ extension UserDefaults {
         /// calendar interval
         case calendarInterval = "calendarInterval"
         
+        /// should a visual coloured indicator be shown in the calendar title yes or no
+        case displayVisualIndicatorInCalendarEvent = "displayVisualIndicator"
+        
+        
         // Other Settings (not user configurable)
         
         /// - in case missed reading alert settings are changed by user, this value will be set to true
@@ -291,6 +295,17 @@ extension UserDefaults {
         // Trace
         /// should debug level logs be added in trace file or not, and also in NSLog
         case addDebugLevelLogsInTraceFileAndNSLog = "addDebugLevelLogsInTraceFileAndNSLog"
+        
+        // NFC scan handlers
+        /// used to indicate that a Libre 2 NFC pairing scan has failed
+        case nfcScanFailed = "nfcScanFailed"
+        
+        /// used to indicate that a Libre 2 NFC pairing scan has been successful
+        case nfcScanSuccessful = "nfcScanSuccessful"
+        
+        /// used to stop the active sensor if an integrated transmitter/sensor is disconnected (e.g. Libre 2)
+        case stopActiveSensor = "stopActiveSensor"
+        
         
         // non fixed slope values for oop web Libre
         /// web oop parameters, only for bubble, miaomiao and Libre 2
@@ -1500,8 +1515,17 @@ extension UserDefaults {
         }
     }
     
-
+    /// should a visual coloured indicator be shown in the calendar title,  yes or no, default no
+    @objc dynamic var displayVisualIndicatorInCalendarEvent: Bool {
+        get {
+            return bool(forKey: Key.displayVisualIndicatorInCalendarEvent.rawValue)
+        }
+        set {
+            set(newValue, forKey: Key.displayVisualIndicatorInCalendarEvent.rawValue)
+        }
+    }
     
+
     // MARK: - =====  Other Settings ======
     
     /// - in case missed reading alert settings are changed by user, this value will be set to true
@@ -1615,6 +1639,7 @@ extension UserDefaults {
             set(newValue, forKey: Key.maxSensorAgeInDays.rawValue)
         }
     }
+    
     
     // MARK: - =====  Loop Share Settings ======
     
@@ -1871,6 +1896,39 @@ extension UserDefaults {
         }
         set {
             set(newValue, forKey: Key.librePatchInfo.rawValue)
+        }
+    }
+    
+    /// in case an NFC scan fails, this value will be set to true.
+    /// bluetoothPeripheralViewController will observe this value and if it becomes set to true, it should disconnect the transmitter and offer to scan again
+    @objc dynamic var nfcScanFailed: Bool {
+        get {
+            return bool(forKey: Key.nfcScanFailed.rawValue)
+        }
+        set {
+            set(newValue, forKey: Key.nfcScanFailed.rawValue)
+        }
+    }
+    
+    /// in case an NFC completes successfuly, this value will be set to true.
+    /// bluetoothPeripheralViewController will observe this value and if it becomes set to true, it will advise the user and launch BLE scanning from the superclass
+    @objc dynamic var nfcScanSuccessful: Bool {
+        get {
+            return bool(forKey: Key.nfcScanSuccessful.rawValue)
+        }
+        set {
+            set(newValue, forKey: Key.nfcScanSuccessful.rawValue)
+        }
+    }
+    
+    /// in case the user disconnects a transmitter with integrated sensor (e.g. Libre 2), this value will be set to true.
+    /// RootViewController will observe this value and if it becomes set to true, it will stop the active sensor session
+    @objc dynamic var stopActiveSensor: Bool {
+        get {
+            return bool(forKey: Key.stopActiveSensor.rawValue)
+        }
+        set {
+            set(newValue, forKey: Key.stopActiveSensor.rawValue)
         }
     }
     
